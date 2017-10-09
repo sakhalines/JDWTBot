@@ -27,16 +27,17 @@ public class Restart implements Command {
 
         if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
 
-        event.getTextChannel().sendMessage(":warning:  Bot will restart now...").queue();
+        event.getTextChannel().sendMessage(":warning:  Бот перезапускается...").queue();
+        restart("restart");
+    }
 
+    public static void restart(String restartOrUpdateParam) throws IOException {
         if (System.getProperty("os.name").toLowerCase().contains("linux"))
-            //Runtime.getRuntime().exec("screen sudo python restart.py");
-            Runtime.getRuntime().exec("screen -L -S JDWTBot java -jar DiscordBot.jar");
+            Runtime.getRuntime().exec("screen -dmLS JDWTBot java -jar JDWTBot.jar " + restartOrUpdateParam);
         else
-            Runtime.getRuntime().exec("wincmd.exe -restart");
+            Runtime.getRuntime().exec("java -jar JDWTBot.jar restart " + restartOrUpdateParam);
 
         System.exit(0);
-
     }
 
     @Override
