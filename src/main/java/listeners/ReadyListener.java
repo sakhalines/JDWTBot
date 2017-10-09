@@ -3,12 +3,16 @@ package listeners;
 import commands.thunderTools.ChlogMonitoring;
 import core.StartArgumentHandler;
 import core.UpdateClient;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.PrivateChannel;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import utils.Logger;
 import utils.STATICS;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,17 +39,32 @@ public class ReadyListener extends ListenerAdapter {
 
                 case "-update":
                     for (Guild g : readyEvent.getJDA().getGuilds()) {
-                        g.getPublicChannel().sendMessage(
-                                ":ok_hand:  Bot successfully updated to version v." + STATICS.VERSION + "!\n\n" +
-                                        "**Changelogs:** http://github.zekro.de/DiscordBot/blob/master/README.md#latest-changelogs\n" +
-                                        "Github Repository: http://github.zekro.de/DiscordBot"
-                        ).queue();
+//                        g.getPublicChannel().sendMessage(
+//                                ":ok_hand:  Bot successfully updated to version v." + STATICS.VERSION + "!\n\n" +
+//                                        "**Changelogs:** http://github.zekro.de/DiscordBot/blob/master/README.md#latest-changelogs\n" +
+//                                        "Github Repository: http://github.zekro.de/DiscordBot"
+//                        ).queue();
+                        g.getMemberById(STATICS.BOT_OWNER_ID).getUser().openPrivateChannel()
+                                .queue(c -> sendUpdateMsg(c));
                     }
                     break;
 
             }
         }
 
+    }
+    private static void sendUpdateMsg(Object channel) {
+        EmbedBuilder eb = new EmbedBuilder()
+                .setColor(Color.cyan)
+                .setTitle("Обновление завершено. Бот перезапущен.");
+
+        try {
+            TextChannel tc = (TextChannel) channel;
+            tc.sendMessage(eb.build()).queue();
+        } catch (Exception e) {
+            PrivateChannel pc = (PrivateChannel) channel;
+            pc.sendMessage(eb.build()).queue();
+        }
     }
 
     @Override

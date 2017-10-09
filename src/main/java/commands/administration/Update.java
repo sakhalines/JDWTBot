@@ -2,7 +2,6 @@ package commands.administration;
 
 import commands.Command;
 import core.Perms;
-import core.UpdateClient;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import utils.STATICS;
 
@@ -27,7 +26,8 @@ public class Update implements Command {
 
         if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
 
-        UpdateClient.manualCheck(event.getMessage().getTextChannel());
+        //UpdateClient.manualCheck(event.getMessage().getTextChannel());
+        Update2.manualCheck2(event.getMessage().getTextChannel());
 
     }
 
@@ -38,12 +38,12 @@ public class Update implements Command {
 
     @Override
     public String help() {
-        return "Использование: -UpdateClient";
+        return "Использование: .update";
     }
 
     @Override
     public String description() {
-        return "UpdateClient discord bot.";
+        return "Обновление JDWTBot.";
     }
 
     @Override

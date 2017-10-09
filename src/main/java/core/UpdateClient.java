@@ -73,6 +73,18 @@ public class UpdateClient {
         }).findFirst().orElse(null);
 
     }
+//    public static void manualCheck2(TextChannel channel) throws IOException {
+//
+//        InputStream initialStream = new URL("https://github.com/sakhalines/JDWTBot/releases/download/1.0/JDWTBot.jar").openStream();
+//        File targetFile = new File("JDWTBot1.jar");
+//
+//        java.nio.file.Files.copy(
+//                initialStream,
+//                targetFile.toPath(),
+//                StandardCopyOption.REPLACE_EXISTING);
+//        initialStream.close();
+//
+//    }
 
     public static void manualCheck(TextChannel channel) {
 
@@ -91,7 +103,7 @@ public class UpdateClient {
     private static void sendUpdateMsg(Object channel) {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.cyan)
-                .setTitle("New bot update is available!")
+                .setTitle("Доступно обновление!")
                 .setDescription("Download the latest version and install it manually on your vServer.\n\n**Current version:  ** `" + STATICS.VERSION + "`")
                 .addField("Latest Pre Release Build", String.format(
                         "Version:  `%s`\n" +

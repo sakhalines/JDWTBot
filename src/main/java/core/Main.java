@@ -86,7 +86,7 @@ public class Main {
         commands.put("userinfo", new UserInfo());
         commands.put("user", new UserInfo());
         commands.put("stups", new Stups());
-//        commands.put("update", new Update());
+        commands.put("update", new Update());
         commands.put("restart", new Restart());
         commands.put("kick", new Kick());
         commands.put("vkick", new VoiceKick());
