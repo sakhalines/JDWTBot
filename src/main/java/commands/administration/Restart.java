@@ -35,7 +35,7 @@ public class Restart implements Command {
         if (System.getProperty("os.name").toLowerCase().contains("linux"))
             Runtime.getRuntime().exec("screen -dmLS JDWTBot java -jar JDWTBot.jar " + restartOrUpdateParam);
         else
-            Runtime.getRuntime().exec("java -jar JDWTBot.jar restart " + restartOrUpdateParam);
+            Runtime.getRuntime().exec("java -jar JDWTBot.jar " + restartOrUpdateParam);
 
         System.exit(0);
     }
