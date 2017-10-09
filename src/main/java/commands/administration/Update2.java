@@ -2,6 +2,7 @@ package commands.administration;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.TextChannel;
+import org.apache.commons.lang3.SystemUtils;
 
 import java.awt.*;
 import java.io.File;
@@ -26,7 +27,10 @@ public class Update2 {
 
         channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновление загружено. Перезапуск...").build()).queue();
 
-        Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("java", "-jar", "JDWTBot.jar", "-update"));
+        if (SystemUtils.IS_OS_WINDOWS)
+            Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("java", "-jar", "JDWTBot.jar", "-update"));
+        else
+            Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("screen", "-L", "-S", "JDWTBot", "java", "-jar", "JDWTBot.jar", "-update"));
 
         System.exit(0);
     }
