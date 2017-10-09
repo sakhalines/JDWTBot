@@ -30,7 +30,7 @@ public class Update2 {
         if (SystemUtils.IS_OS_WINDOWS)
             Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("java", "-jar", "JDWTBot.jar", "-update"));
         else
-            Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("screen", "-L", "-S", "JDWTBot", "java", "-jar", "JDWTBot.jar", "-update"));
+            Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("screen", "-dmLS", "JDWTBot", "java", "-jar", "JDWTBot.jar", "-update"));
 
         System.exit(0);
     }
