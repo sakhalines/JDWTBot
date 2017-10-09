@@ -1,0 +1,9 @@
+classes/*
+JDWTBot.iml
+target/*
+.idea/*
+/othersFiles/*
+/lib/*
+/.websrc/
+/out/
+/src/winPackage/
