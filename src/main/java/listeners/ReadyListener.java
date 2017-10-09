@@ -29,15 +29,17 @@ public class ReadyListener extends ListenerAdapter {
         if (args.length > 0) {
             switch (args[0]) {
 
-                case "-restart":
+                case "restart":
                     for (Guild g : readyEvent.getJDA().getGuilds()) {
-                        g.getPublicChannel().sendMessage(
-                                ":ok_hand:  Bot successfully restarted!"
-                        ).queue();
+//                        g.getPublicChannel().sendMessage(
+//                                ":ok_hand:  Бот перезапущен!"
+//                        ).queue();
+                        g.getMemberById(STATICS.BOT_OWNER_ID).getUser().openPrivateChannel()
+                                .queue(c -> sendRestartMsg(c));
                     }
                     break;
 
-                case "-update":
+                case "update":
                     for (Guild g : readyEvent.getJDA().getGuilds()) {
 //                        g.getPublicChannel().sendMessage(
 //                                ":ok_hand:  Bot successfully updated to version v." + STATICS.VERSION + "!\n\n" +
@@ -53,11 +55,20 @@ public class ReadyListener extends ListenerAdapter {
         }
 
     }
+    private static void sendRestartMsg(Object channel) {
+        EmbedBuilder eb = new EmbedBuilder()
+                .setColor(Color.cyan)
+                .setTitle(":ok_hand:  Бот перезапущен.");
+        sendMsg(channel, eb);
+    }
     private static void sendUpdateMsg(Object channel) {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.cyan)
-                .setTitle("Обновление завершено. Бот перезапущен.");
+                .setTitle(":ok_hand:  Обновление завершено. Бот перезапущен.");
+        sendMsg(channel, eb);
+    }
 
+    public static void sendMsg(Object channel, EmbedBuilder eb){
         try {
             TextChannel tc = (TextChannel) channel;
             tc.sendMessage(eb.build()).queue();
@@ -66,6 +77,8 @@ public class ReadyListener extends ListenerAdapter {
             pc.sendMessage(eb.build()).queue();
         }
     }
+
+
 
     @Override
     public void onReady(ReadyEvent event) {
@@ -81,7 +94,7 @@ public class ReadyListener extends ListenerAdapter {
                 "| Running on %s guilds: \n" +
                 "%s" +
                 "#------------------------------------------------------------------------- - - -  -  -  -   -\n\n",
-        Logger.Cyan + Logger.Bold + "zekroBot" + Logger.Reset, STATICS.VERSION, "3.2.0_242", event.getJDA().getGuilds().size(), sb.toString()));
+        Logger.Cyan + Logger.Bold + "JDWTBot" + Logger.Reset, STATICS.VERSION, "3.2.0_242", event.getJDA().getGuilds().size(), sb.toString()));
 
         if (STATICS.BOT_OWNER_ID == 0) {
             Logger.ERROR(
