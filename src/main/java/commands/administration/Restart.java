@@ -37,7 +37,7 @@ public class Restart implements Command {
 
     public static void restart(String restartOrUpdateParam, String fileName) throws IOException {
         if (System.getProperty("os.name").toLowerCase().contains("linux"))
-            Runtime.getRuntime().exec("screen -dmLS JDWTBot java -jar" + fileName + " " + restartOrUpdateParam);
+            Runtime.getRuntime().exec("screen -dmLS JDWTBot java -jar " + fileName + " " + restartOrUpdateParam);
         else
             Runtime.getRuntime().exec("java -jar " + fileName + " " + restartOrUpdateParam);
 
