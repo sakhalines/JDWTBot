@@ -1,8 +1,8 @@
 package core;
 
+import listeners.ReadyListener;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,13 +115,7 @@ public class UpdateClient {
                 ), false)
                 .setFooter("Enter '-disable' to disable this message on new updates.", null);
 
-        try {
-            TextChannel tc = (TextChannel) channel;
-            tc.sendMessage(eb.build()).queue();
-        } catch (Exception e) {
-            PrivateChannel pc = (PrivateChannel) channel;
-            pc.sendMessage(eb.build()).queue();
-        }
+        ReadyListener.sendMsg(channel, eb);
 
 
     }

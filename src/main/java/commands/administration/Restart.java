@@ -1,11 +1,15 @@
 package commands.administration;
 
 import commands.Command;
+import core.Main;
 import core.Perms;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import utils.STATICS;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 
 /**
@@ -28,18 +32,44 @@ public class Restart implements Command {
         if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
 
         event.getTextChannel().sendMessage(":warning:  Бот перезапускается...").queue();
-        restart("restart");
+        restart("restart", new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName());
     }
 
-    public static void restart(String restartOrUpdateParam) throws IOException {
+    public static void restart(String restartOrUpdateParam, String fileName) throws IOException {
         if (System.getProperty("os.name").toLowerCase().contains("linux"))
-            Runtime.getRuntime().exec("screen -dmLS JDWTBot java -jar JDWTBot.jar " + restartOrUpdateParam);
+            Runtime.getRuntime().exec("screen -dmLS JDWTBot java -jar" + fileName + " " + restartOrUpdateParam);
         else
-            Runtime.getRuntime().exec("java -jar JDWTBot.jar " + restartOrUpdateParam);
+            Runtime.getRuntime().exec("java -jar " + fileName + " " + restartOrUpdateParam);
 
         System.exit(0);
     }
 
+    public static boolean restart2() throws IOException {
+        File currentFile = new  File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()),
+                newFile = new File("JDWTBot-new.jar"),
+                origFile = new File("JDWTBot.jar");
+
+        System.out.println(currentFile.getName());
+        if (!currentFile.getName().equalsIgnoreCase(origFile.getName())){
+            if (origFile.exists()){
+                System.out.println("delete " + origFile.getName());
+                origFile.delete();
+
+                if (!origFile.exists())
+                    System.out.println("deleted");
+
+                Files.copy(currentFile.toPath(), origFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                restart("update", origFile.getName());
+//                Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("java", "-jar", origFile.getName(), "update"));
+//                System.exit(0);
+                return true;
+            }
+        }
+        else if (newFile.exists()){
+            newFile.delete();
+        }
+        return false;
+    }
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 

@@ -33,6 +33,8 @@ public class Main {
     public static JDA jda;
 
     public static void main(String[] args) throws IOException {
+//        if (!System.getProperty("os.name").toLowerCase().contains("linux"))
+//            Restart.restart2();
 
         StartArgumentHandler.args = args;
 
