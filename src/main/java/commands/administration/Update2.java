@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.List;
 
 public class Update2 {
     public static void manualCheck2(TextChannel channel) throws IOException {
@@ -18,22 +16,22 @@ public class Update2 {
         channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Загрузка обновления...").build()).queue();
 
         File targetFile = null;
-        String paramStr = null;
+//        String paramStr = null;
         if (System.getProperty("os.name").toLowerCase().contains("linux"))
         {
             targetFile = new File("JDWTBot.jar");
-            paramStr = "screen, -dmLS, JDWTBot, java, -jar," + targetFile.getName() + ",update";
+//            paramStr = "screen, -dmLS, JDWTBot, java, -jar," + targetFile.getName() + ",update";
 
             //Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("screen", "-dmLS", "JDWTBot", "java", "-jar", targetFile.getName(), "update"));
         }
         else {
             targetFile = new File("JDWTBot-new.jar");
-            paramStr = "java, -jar," + targetFile.getName() + ",update";
+//            paramStr = "java, -jar," + targetFile.getName() + ",update";
 
             //Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("java", "-jar", targetFile.getName(), "update"));
         }
 
-        List<String> paramList = Arrays.asList(paramStr.split("\\s*,\\s*"));
+//        List<String> paramList = Arrays.asList(paramStr.split("\\s*,\\s*"));
 
 //        JarExecutor jarExe = new JarExecutor();
 //        try {
