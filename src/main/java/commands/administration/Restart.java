@@ -49,6 +49,9 @@ public class Restart implements Command {
                 newFile = new File("JDWTBot-new.jar"),
                 origFile = new File("JDWTBot.jar");
 
+        if (currentFile.getName().contains("classes")) // если запускаем из среды (не jar файлом)
+            currentFile = origFile;
+
         System.out.println(currentFile.getName());
         if (!currentFile.getName().equalsIgnoreCase(origFile.getName())){
             if (origFile.exists()){
