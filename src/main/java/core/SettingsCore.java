@@ -27,7 +27,7 @@ public class SettingsCore {
         static final String KICK_VOICE_CHANNEL = "KICK_VOICE_CHANNEL";
         static final String UPDATE_INFO = "UPDATE_INFO";
         static final String GAME_CHANGELOG_UPDATE_INTERVAL = "GAME_CHANGELOG_UPDATE_INTERVAL";
-        static final String GAME_CHANGELOG_CHANNEL = "GAME_CHANGELOG_CHANNEL";
+        static final String GAME_CHANGELOG_CHANNEL_PREFIX = "GAME_CHANGELOG_CHANNEL_PREFIX";
         static final String GUILD_JOIN_ROLE = "GUILD_JOIN_ROLE";
         static final String DISCORD_JOIN_MESSAGE = "DISCORD_JOIN_MESSAGE";
         static final String FULL_PERMISSION_ROLES = "FULL_PERMISSION_ROLES";
@@ -81,7 +81,7 @@ public class SettingsCore {
                             "    # частота проверки информации об обновлении игры War Thunder в минутах, или \"OFF\" для отключения мониторинга\n" +
                             "       GAME_CHANGELOG_UPDATE_INTERVAL = \"OFF\"\n" +
                             "    # префикс для канала, в котором будут публиковаться обновления игры War Thunder. После префикса автоматически будет добавляться дата последнего обновления\n" +
-                            "        GAME_CHANGELOG_CHANNEL = \"chlog_\"\n" +
+                            "        GAME_CHANGELOG_CHANNEL_PREFIX = \"chlog_\"\n" +
                             "    # Alternative voice channel vor vkicks\n" +
                             "        KICK_VOICE_CHANNEL = \"Lobby\"\n" +
                             "\n" +
@@ -107,7 +107,7 @@ public class SettingsCore {
             STATICS.commandConsoleOutout = toml.getBoolean(SCONT.COMMAND_CONSOLE_OUTPUT);
             STATICS.KICK_VOICE_CHANNEL = toml.getString(SCONT.KICK_VOICE_CHANNEL);
             STATICS.autoUpdate = toml.getBoolean(SCONT.UPDATE_INFO);
-            STATICS.gameChangelogChannel = toml.getString(SCONT.GAME_CHANGELOG_CHANNEL);
+            STATICS.gameChangelogChannelPrefix = toml.getString(SCONT.GAME_CHANGELOG_CHANNEL_PREFIX);
             STATICS.gameChangelogUpdateInterval = toml.getString(SCONT.GAME_CHANGELOG_UPDATE_INTERVAL);
             STATICS.guildJoinRole = toml.getString(SCONT.GUILD_JOIN_ROLE);
             STATICS.discordJoinMessage = toml.getString(SCONT.DISCORD_JOIN_MESSAGE);
