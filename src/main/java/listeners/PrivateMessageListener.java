@@ -25,15 +25,23 @@ public class PrivateMessageListener extends ListenerAdapter {
         if (event.getMessage().getContent().startsWith("token_"))
             return;
 
-        if (event.getMessage().getContent().equalsIgnoreCase("-disable")) {
+        if (event.getMessage().getContent().equalsIgnoreCase(".checkupdate pre")) {
+            //UpdateClient.update();
+        }
+
+        if (event.getMessage().getContent().equalsIgnoreCase(".checkupdate stable")) {
+
+        }
+
+        if (event.getMessage().getContent().equalsIgnoreCase(".disable")) {
 
             try {
                 new File("SERVER_SETTINGS/no_update_info").createNewFile();
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(Color.red)
-                        .setDescription("You disabled update notifications.\n" +
-                                        "Now, you wont get automatically notified if there are new versions of the bot available.")
-                        .setFooter("Re-enable this function with enetring '-enable'.", null)
+                        .setDescription("Вы отключили сообщение об обновлении.\n" +
+                                        "Теперь Вы не будете уведомлятся о новых обновлениях бота.")
+                        .setFooter("Для включения используйте '.enable'.", null)
                         .build()).queue();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -41,7 +49,7 @@ public class PrivateMessageListener extends ListenerAdapter {
             return;
         }
 
-        if (event.getMessage().getContent().equalsIgnoreCase("-enable")) {
+        if (event.getMessage().getContent().equalsIgnoreCase(".enable")) {
 
 
             File f = new File("SERVER_SETTINGS/no_update_info");
@@ -51,7 +59,7 @@ public class PrivateMessageListener extends ListenerAdapter {
             event.getChannel().sendMessage(new EmbedBuilder()
                     .setColor(Color.green)
                     .setDescription("You re-enabled update notification.")
-                    .setFooter("Disable this function with enetring '-disable'.", null)
+                    .setFooter("Disable this function with enetring '.disable'.", null)
                     .build()).queue();
 
             return;
