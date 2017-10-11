@@ -291,7 +291,7 @@ public class SSSS /* Stands for "SERVER SPECIFIC SETTINGS SYSTEM" :^) */ {
                 }
             }
         } catch (Exception e) {}
-        return "";
+        return STATICS.gameChangelogChannelPrefix;
     }
 
     public static void setGAMECHANGELOGCHANNELPREFIX(String entry, Guild guild) {
@@ -312,7 +312,7 @@ public class SSSS /* Stands for "SERVER SPECIFIC SETTINGS SYSTEM" :^) */ {
                 }
             }
         } catch (Exception e) {}
-        return "";
+        return STATICS.gameChangelogUpdateInterval;
     }
 
     public static void setGAMECHANGELOGUPDATEINTERVAL(String entry, Guild guild) {
