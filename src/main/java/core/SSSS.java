@@ -80,7 +80,7 @@ public class SSSS /* Stands for "SERVER SPECIFIC SETTINGS SYSTEM" :^) */ {
         StringBuilder sb = new StringBuilder()
                 .append("**Список настроек этого сервера**\n\n")
                 .append("```")
-                .append("ПАРАМЕТР            -  ЗНАЧЕНИЕ\n\n");
+                .append("ПАРАМЕТР                           -  ЗНАЧЕНИЕ\n\n");
 
         sets.forEach((k, v) -> sb.append(
                 String.format("%s  -  \"%s\"\n", k, v))
