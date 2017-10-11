@@ -1,11 +1,11 @@
 package commands.thunderTools;
 
+import core.SSSS;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
-import utils.STATICS;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,11 +41,13 @@ public class ChlogMonitoring{
 //        Channel GameCangelogChannel = tc[0];
 
         Guild guild = null;
-        String prefix = STATICS.gameChangelogChannel;
-        Channel gameChangelogChannel = null;
+        String prefix = null;
+                //String prefix = STATICS.gameChangelogChannelPrefix;
+                Channel gameChangelogChannel = null;
         boolean gameChangelogChannelIsExist = false;
         for (Guild g : jda.getGuilds() ){
             guild = g;
+            prefix = SSSS.getGAMECHANGELOGCHANNELPREFIX(guild);
             for (Channel channel : guild.getTextChannels()){
                 if (channel.getName().contains(prefix)){
                     gameChangelogChannel = channel;
@@ -54,6 +56,7 @@ public class ChlogMonitoring{
                 }
             }
         }
+
         if (!gameChangelogChannelIsExist){
             gameChangelogChannel = guild.getController().createTextChannel(prefix).complete();
             System.out.println("Канал " + prefix + "создан");
