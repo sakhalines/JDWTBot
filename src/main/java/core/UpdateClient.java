@@ -1,5 +1,6 @@
 package core;
 
+import commands.administration.Restart;
 import listeners.ReadyListener;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
@@ -12,7 +13,9 @@ import utils.STATICS;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -29,7 +32,7 @@ public class UpdateClient {
     private static String lastUpdate = "";
 
     private static final String API_URL = "https://api.github.com/repos/sakhalines/JDWTBot/releases";
-
+    private static final String DOWNLOAD_URL = "https://github.com/sakhalines/JDWTBot/releases/download/";
     private static final Release PRE = new Release(getRelease(true));
     private static final Release STABLE = new Release(getRelease(false));
 
@@ -73,47 +76,91 @@ public class UpdateClient {
         }).findFirst().orElse(null);
 
     }
-//    public static void manualCheck2(TextChannel channel) throws IOException {
-//
-//        InputStream initialStream = new URL("https://github.com/sakhalines/JDWTBot/releases/download/1.0/JDWTBot.jar").openStream();
-//        File targetFile = new File("JDWTBot1.jar");
-//
-//        java.nio.file.Files.copy(
-//                initialStream,
-//                targetFile.toPath(),
-//                StandardCopyOption.REPLACE_EXISTING);
-//        initialStream.close();
-//
-//    }
 
     public static void manualCheck(TextChannel channel) {
 
         if (isUdate())
             sendUpdateMsg(channel);
         else
-            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Your bor version is up to date!").build()).queue();
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений нет.").build()).queue();
+
+    }
+
+
+    public static void update(TextChannel channel, boolean stable) throws IOException {
+        if (isUdate()) {
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Загрузка обновления...").build()).queue();
+
+            File targetFile = null;
+//        String paramStr = null;
+            if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+                targetFile = new File("JDWTBot.jar");
+//            paramStr = "screen, -dmLS, JDWTBot, java, -jar," + targetFile.getName() + ",update";
+
+                //Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("screen", "-dmLS", "JDWTBot", "java", "-jar", targetFile.getName(), "update"));
+            } else {
+                targetFile = new File("JDWTBot-new.jar");
+//            paramStr = "java, -jar," + targetFile.getName() + ",update";
+
+                //Runtime.getRuntime().addShutdownHook(new RunNewInstanceHook("java", "-jar", targetFile.getName(), "update"));
+            }
+
+//        List<String> paramList = Arrays.asList(paramStr.split("\\s*,\\s*"));
+
+//        JarExecutor jarExe = new JarExecutor();
+//        try {
+//            jarExe.executeJar(targetFile.getName(), paramList);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+//        InputStream initialStream = new URL("https://github.com/sakhalines/JDWTBot/releases/download/1.0/JDWTBot.jar").openStream();
+
+            InputStream initialStream = null;
+            if (stable)
+                initialStream = new URL(DOWNLOAD_URL + STABLE.tag + "/JDWTBot.jar").openStream();
+            else
+                initialStream = new URL(DOWNLOAD_URL + PRE.tag + "/JDWTBot.jar").openStream();
+
+            java.nio.file.Files.copy(
+                    initialStream,
+                    targetFile.toPath(),
+                    StandardCopyOption.REPLACE_EXISTING);
+            initialStream.close();
+
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновление загружено.\nОжидайте личное сообщение об успешном завершении обновления\n.Перезапуск...").build()).queue();
+
+            Restart.restart("update", targetFile.getName());
+
+//        System.exit(0);
+        }
+        else
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений нет.").build()).queue();
 
     }
 
 
     private static boolean isUdate() {
         return !PRE.tag.equals(STATICS.VERSION);
+        //return !STABLE.tag.equals(STATICS.VERSION);
     }
 
     private static void sendUpdateMsg(Object channel) {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.cyan)
                 .setTitle("Доступно обновление!")
-                .setDescription("Download the latest version and install it manually on your vServer.\n\n**Current version:  ** `" + STATICS.VERSION + "`")
-                .addField("Latest Pre Release Build", String.format(
-                        "Version:  `%s`\n" +
+                .setDescription("Используйте команду `.checkupdate stable` или `.checkupdate pre` для обновления на стабильную или предварительную версию соответственно." +
+                        "\nПодробнее `.help checkupdate`" +
+                        "\n\n**Текущая версия:  ** `" + STATICS.VERSION + "`")
+                .addField("Последняя предварительная версия", String.format(
+                        "Версия:  `%s`\n" +
                                 "Download & Changelogs:  [GitHub Release](%s)\n", PRE.tag, PRE.url
                 ), false)
-                .addField("Latest Stable Release Build", String.format(
-                        "Version:  `%s`\n" +
+                .addField("Последняя стабильная версия", String.format(
+                        "Версия:  `%s`\n" +
                                 "Download & Changelogs:  [GitHub Release](%s)\n", STABLE.tag, STABLE.url
                 ), false)
-                .setFooter("Enter '-disable' to disable this message on new updates.", null);
+                .setFooter("Введите '.disable' чтобы отключить это сообщение об обновлении.", null);
 
         ReadyListener.sendMsg(channel, eb);
 
