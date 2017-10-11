@@ -1,5 +1,6 @@
 package listeners;
 
+import commands.administration.Restart;
 import commands.thunderTools.ChlogMonitoring;
 import core.StartArgumentHandler;
 import core.UpdateClient;
@@ -13,6 +14,7 @@ import utils.Logger;
 import utils.STATICS;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,6 +42,14 @@ public class ReadyListener extends ListenerAdapter {
                     break;
 
                 case "update":
+                    if (!System.getProperty("os.name").toLowerCase().contains("linux"))
+                        try {
+                            if (Restart.restart2()) // если запускается JDWTBot-new.jar
+                                System.exit(0);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                     for (Guild g : readyEvent.getJDA().getGuilds()) {
 //                        g.getPublicChannel().sendMessage(
 //                                ":ok_hand:  Bot successfully updated to version v." + STATICS.VERSION + "!\n\n" +
@@ -64,7 +74,7 @@ public class ReadyListener extends ListenerAdapter {
     private static void sendUpdateMsg(Object channel) {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.cyan)
-                .setTitle(":ok_hand:  Обновление завершено. Бот перезапущен.");
+                .setTitle(":ok_hand:  Обновление до версии **`" + STATICS.VERSION + "`**");
         sendMsg(channel, eb);
     }
 
