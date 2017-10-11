@@ -48,11 +48,11 @@ public class Main {
 
         try {
             if (!SettingsCore.testForToken()) {
-                System.out.println("[ERROR] PLEASE ENTER YOUR DISCORD API TOKEN FROM 'https://discordapp.com/developers/applications/me' IN THE TEXTFILE 'SETTINGS.txt' AND RESTART!");
+                System.out.println("[ОШИБКА] ПОЖАЛУЙСТА ВВЕДИТЕ ВАШ DISCORD API TOKEN ИЗ 'https://discordapp.com/developers/applications/me' В ТЕКСТОВЫЙ ФАЙЛ 'SETTINGS.txt' И ПЕРЕЗАПУСТИТЕ!");
                 System.exit(0);
             }
         } catch (Exception e) {
-            System.out.println("[ERROR] PLEASE ENTER YOUR DISCORD API TOKEN FROM 'https://discordapp.com/developers/applications/me' IN THE TEXTFILE 'SETTINGS.txt' AND RESTART!");
+            System.out.println("[ОШИБКА] ПОЖАЛУЙСТА ВВЕДИТЕ ВАШ DISCORD API TOKEN ИЗ 'https://discordapp.com/developers/applications/me' В ТЕКСТОВЫЙ ФАЙЛ 'SETTINGS.txt' И ПЕРЕЗАПУСТИТЕ!");
             System.exit(0);
         }
 
@@ -88,7 +88,8 @@ public class Main {
         commands.put("userinfo", new UserInfo());
         commands.put("user", new UserInfo());
         commands.put("stups", new Stups());
-        commands.put("update", new Update());
+        commands.put("checkupdate", new CheckUpdate());
+        commands.put("chkupd", new CheckUpdate());
         commands.put("restart", new Restart());
         commands.put("kick", new Kick());
         commands.put("vkick", new VoiceKick());
