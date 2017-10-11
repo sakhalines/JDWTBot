@@ -1,9 +1,11 @@
-classes/*
+/classes/
 JDWTBot.iml
-target/*
-.idea/*
-/othersFiles/*
-/lib/*
+/target/
+/.idea/
+/othersFiles/
+/lib/
 /.websrc/
 /out/
 /src/winPackage/
+/OLD classes/
+src/main/java/core/JarExecutor.java
