@@ -29,9 +29,9 @@ public class CheckUpdate implements Command {
 
         if (args.length > 0){
             if (args[0].equalsIgnoreCase("stable"))
-                UpdateClient.manualCheck2(event.getMessage().getTextChannel(), true);
+                UpdateClient.update(event.getMessage().getTextChannel(), true);
             else if (args[0].equalsIgnoreCase("pre"))
-                UpdateClient.manualCheck2(event.getMessage().getTextChannel(), false);
+                UpdateClient.update(event.getMessage().getTextChannel(), false);
         }
 
         else
