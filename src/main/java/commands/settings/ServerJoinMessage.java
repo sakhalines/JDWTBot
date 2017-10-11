@@ -35,7 +35,7 @@ public class ServerJoinMessage implements Command {
         Arrays.stream(args).forEach(s -> sb.append(s + " "));
 
         SSSS.setSERVERJOINMESSAGE(sb.toString().substring(0, sb.toString().length() - 1), event.getGuild());
-        event.getTextChannel().sendMessage(MSGS.success().setDescription("Server join message successfully changed to `" + sb.toString().substring(0, sb.toString().length() - 1) + "`.").build()).queue();
+        event.getTextChannel().sendMessage(MSGS.success().setDescription("Сообщение при подключении к серверу изменено на `" + sb.toString().substring(0, sb.toString().length() - 1) + "`.").build()).queue();
     }
 
     @Override
@@ -45,14 +45,15 @@ public class ServerJoinMessage implements Command {
 
     @Override
     public String help() {
-        return "Использование: -joinmsg <сообщение>\n" +
-                "Set message to `OFF` to disable server join message.\n" +
-                "Use `[USER]` to mention joined user and `[GUILD]` to enter guild name in message.";
+        return "Использование: .joinmsg <сообщение>\n" +
+                "Установите в `OFF` для отключения сообщения при подключении к серверу.\n" +
+                "Переменные: `[USER]` - имя подключившегося пользователя\n" +
+                "           `[GUILD]` название этого сервера.";
     }
 
     @Override
     public String description() {
-        return "Set the guild join message.";
+        return "Установка сообщения при подключении к серверу.";
     }
 
     @Override
