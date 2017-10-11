@@ -74,7 +74,7 @@ public class SSSS /* Stands for "SERVER SPECIFIC SETTINGS SYSTEM" :^) */ {
         HashMap<String, String> setsMulti = new HashMap<>();
         setsMulti.put("PERMROLES_LVL1", String.join(", ", getPERMROLES_1(g)));
         setsMulti.put("PERMROLES_LVL2", String.join(", ", getPERMROLES_2(g)));
-        setsMulti.put("PERMROLES_LVL2", String.join(", ", getPERMROLES_3(g)));
+        setsMulti.put("PERMROLES_LVL3", String.join(", ", getPERMROLES_3(g)));
         setsMulti.put("BLACKLIST", String.join(", ", getBLACKLIST(g)));
 
         StringBuilder sb = new StringBuilder()
