@@ -111,7 +111,7 @@ public class ChlogMonitoring{
             return true;
         }
         else {
-            System.out.println(simpleDateFormat.format(new Date()) + " | Обновлений нет.");
+            System.out.println(simpleDateFormat.format(new Date()) + " | Обновлений игры нет.");
             return false;
         }
     }

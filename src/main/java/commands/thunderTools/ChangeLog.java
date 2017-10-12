@@ -187,10 +187,10 @@ public class ChangeLog implements Command {
 //            }
             else if (sendAsChannelMonitoringMsg){
                 if(!ChlogMonitoring.updateGameChangelogChannel(event.getJDA()) ){
-                    event.getTextChannel().sendMessage(":warning:Обновлений нет.").queue();
+                    event.getTextChannel().sendMessage(":warning:Обновлений игры нет.").queue();
                 }
                 else {
-                    event.getTextChannel().sendMessage(":new:Обновление доступны. Канал обновлён.").queue();
+                    event.getTextChannel().sendMessage(":new:Обновления игры доступны. Канал обновлён.").queue();
                 }
 
 
