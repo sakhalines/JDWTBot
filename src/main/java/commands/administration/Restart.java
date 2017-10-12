@@ -56,7 +56,19 @@ public class Restart implements Command {
         if (!currentFile.getName().equalsIgnoreCase(origFile.getName())){
             if (origFile.exists()){
                 System.out.println("delete " + origFile.getName());
-                origFile.delete();
+                while (true) {
+                    try {
+                        origFile.delete();
+                        break;
+                    } catch (Exception e) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+
 
                 if (!origFile.exists())
                     System.out.println("deleted");

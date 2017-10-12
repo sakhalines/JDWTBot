@@ -82,7 +82,7 @@ public class UpdateClient {
         if (isUdate())
             sendUpdateMsg(channel);
         else
-            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений нет.").build()).queue();
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений бота нет.").build()).queue();
 
     }
 
@@ -116,6 +116,9 @@ public class UpdateClient {
 
 //        InputStream initialStream = new URL("https://github.com/sakhalines/JDWTBot/releases/download/1.0/JDWTBot.jar").openStream();
 
+
+
+
             InputStream initialStream = null;
             if (stable)
                 initialStream = new URL(DOWNLOAD_URL + STABLE.tag + "/JDWTBot.jar").openStream();
@@ -135,7 +138,7 @@ public class UpdateClient {
 //        System.exit(0);
         }
         else
-            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений нет.").build()).queue();
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений бота нет.").build()).queue();
 
     }
 

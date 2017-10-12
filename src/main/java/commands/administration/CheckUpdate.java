@@ -27,7 +27,7 @@ public class CheckUpdate implements Command {
 
         if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
 
-        if (args.length > 0){
+        if (args.length == 1){
             if (args[0].equalsIgnoreCase("stable"))
                 UpdateClient.update(event.getMessage().getTextChannel(), true);
             else if (args[0].equalsIgnoreCase("pre"))

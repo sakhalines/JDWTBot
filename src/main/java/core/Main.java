@@ -35,6 +35,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        if (!System.getProperty("os.name").toLowerCase().contains("linux"))
 //            Restart.restart2();
+        if (!System.getProperty("os.name").toLowerCase().contains("linux")) {
+            if (Restart.restart2()) // если запускается JDWTBot-new.jar
+                System.exit(0);
+        }
+
 
         StartArgumentHandler.args = args;
 
