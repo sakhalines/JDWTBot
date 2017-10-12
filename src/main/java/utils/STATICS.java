@@ -14,7 +14,7 @@ public class STATICS {
 
 
     public static String VERSION = "1.0";
-    public static String THISBUILD = BUILDTYPE.UNSTABLE;
+    public static String THISBUILD = BUILDTYPE.STABLE;
 
     public static class BUILDTYPE {
         public static final String STABLE = "STABLE";

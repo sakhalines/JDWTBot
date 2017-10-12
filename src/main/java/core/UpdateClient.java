@@ -116,26 +116,23 @@ public class UpdateClient {
 
 //        InputStream initialStream = new URL("https://github.com/sakhalines/JDWTBot/releases/download/1.0/JDWTBot.jar").openStream();
 
+            if (!targetFile.exists()) {
+                InputStream initialStream = null;
+                if (stable)
+                    initialStream = new URL(DOWNLOAD_URL + STABLE.tag + "/JDWTBot.jar").openStream();
+                else
+                    initialStream = new URL(DOWNLOAD_URL + PRE.tag + "/JDWTBot.jar").openStream();
 
+                java.nio.file.Files.copy(
+                        initialStream,
+                        targetFile.toPath(),
+                        StandardCopyOption.REPLACE_EXISTING);
+                initialStream.close();
+            }
 
-
-            InputStream initialStream = null;
-            if (stable)
-                initialStream = new URL(DOWNLOAD_URL + STABLE.tag + "/JDWTBot.jar").openStream();
-            else
-                initialStream = new URL(DOWNLOAD_URL + PRE.tag + "/JDWTBot.jar").openStream();
-
-            java.nio.file.Files.copy(
-                    initialStream,
-                    targetFile.toPath(),
-                    StandardCopyOption.REPLACE_EXISTING);
-            initialStream.close();
-
-            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновление загружено.\nОжидайте личное сообщение об успешном завершении обновления\n.Перезапуск...").build()).queue();
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновление загружено.\nОжидайте личное сообщение об успешном завершении обновления.\nПерезапуск...").build()).queue();
 
             Restart.restart("update", targetFile.getName());
-
-//        System.exit(0);
         }
         else
             channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений бота нет.").build()).queue();
