@@ -33,12 +33,12 @@ public class UpdateClient {
 
     private static final String API_URL = "https://api.github.com/repos/sakhalines/JDWTBot/releases";
     private static final String DOWNLOAD_URL = "https://github.com/sakhalines/JDWTBot/releases/download/";
-    private static final Release PRE = new Release(getRelease(true));
-    private static final Release STABLE = new Release(getRelease(false));
+    public static final Release PRE = new Release(getRelease(true));
+    public static final Release STABLE = new Release(getRelease(false));
 
-    static class Release {
+    public static class Release {
 
-        private String tag;
+        public String tag;
         private String url;
 
         private Release(JSONObject object) {
@@ -82,7 +82,7 @@ public class UpdateClient {
         if (isUdate())
             sendUpdateMsg(channel);
         else
-            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений нет.").build()).queue();
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений бота нет.").build()).queue();
 
     }
 
@@ -116,26 +116,26 @@ public class UpdateClient {
 
 //        InputStream initialStream = new URL("https://github.com/sakhalines/JDWTBot/releases/download/1.0/JDWTBot.jar").openStream();
 
-            InputStream initialStream = null;
-            if (stable)
-                initialStream = new URL(DOWNLOAD_URL + STABLE.tag + "/JDWTBot.jar").openStream();
-            else
-                initialStream = new URL(DOWNLOAD_URL + PRE.tag + "/JDWTBot.jar").openStream();
+            if (!targetFile.exists()) {
+                InputStream initialStream = null;
+                if (stable)
+                    initialStream = new URL(DOWNLOAD_URL + STABLE.tag + "/JDWTBot.jar").openStream();
+                else
+                    initialStream = new URL(DOWNLOAD_URL + PRE.tag + "/JDWTBot.jar").openStream();
 
-            java.nio.file.Files.copy(
-                    initialStream,
-                    targetFile.toPath(),
-                    StandardCopyOption.REPLACE_EXISTING);
-            initialStream.close();
+                java.nio.file.Files.copy(
+                        initialStream,
+                        targetFile.toPath(),
+                        StandardCopyOption.REPLACE_EXISTING);
+                initialStream.close();
+            }
 
-            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновление загружено.\nОжидайте личное сообщение об успешном завершении обновления\n.Перезапуск...").build()).queue();
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновление загружено.\nОжидайте личное сообщение об успешном завершении обновления.\nПерезапуск...").build()).queue();
 
             Restart.restart("update", targetFile.getName());
-
-//        System.exit(0);
         }
         else
-            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений нет.").build()).queue();
+            channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Обновлений бота нет.").build()).queue();
 
     }
 

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by zekro on 24.03.2017 / 19:49
@@ -36,10 +38,20 @@ public class Restart implements Command {
     }
 
     public static void restart(String restartOrUpdateParam, String fileName) throws IOException {
-        if (System.getProperty("os.name").toLowerCase().contains("linux"))
+        if  (System.getProperty("os.name").toLowerCase().contains("linux")){
             Runtime.getRuntime().exec("screen -dmLS JDWTBot java -jar " + fileName + " " + restartOrUpdateParam);
-        else
+        }
+        else {
+            System.out.println("Запускается " + fileName);
             Runtime.getRuntime().exec("java -jar " + fileName + " " + restartOrUpdateParam);
+        }
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Ожидание...");
+            }
+        }, 2000);
 
         System.exit(0);
     }
@@ -56,7 +68,18 @@ public class Restart implements Command {
         if (!currentFile.getName().equalsIgnoreCase(origFile.getName())){
             if (origFile.exists()){
                 System.out.println("delete " + origFile.getName());
-                origFile.delete();
+
+                    try {
+                        origFile.delete();
+                       } catch (Exception e) {
+                        new Timer().schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                System.out.println("Ожидание доступности файла " + origFile.delete());
+                                origFile.delete();
+                            }
+                        }, 2000, 1000);
+                    }
 
                 if (!origFile.exists())
                     System.out.println("deleted");
@@ -69,7 +92,17 @@ public class Restart implements Command {
             }
         }
         else if (newFile.exists()){
-            newFile.delete();
+           try {
+               newFile.delete();
+           } catch (Exception e) {
+               new Timer().schedule(new TimerTask() {
+                   @Override
+                   public void run() {
+                       System.out.println("Ожидание доступности файла " + newFile.getName());
+                       newFile.delete();
+                   }
+                   }, 2000, 1000);
+                }
         }
         return false;
     }

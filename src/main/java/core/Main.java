@@ -20,6 +20,8 @@ import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Main {
@@ -35,6 +37,18 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        if (!System.getProperty("os.name").toLowerCase().contains("linux"))
 //            Restart.restart2();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Ожидание...");
+            }
+        }, 2000);
+
+        if (!System.getProperty("os.name").toLowerCase().contains("linux")) {
+            if (Restart.restart2()) // если запускается JDWTBot-new.jar
+                System.exit(0);
+        }
+
 
         StartArgumentHandler.args = args;
 
