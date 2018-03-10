@@ -25,7 +25,11 @@ public class ChangeLog implements Command {
         String result = "";
         Document doc;
             try {
-                doc = Jsoup.connect("http://warthunder.ru/ru/game/changelog/").get();
+                doc = Jsoup.connect("http://warthunder.ru/ru/game/changelog/")
+                        .userAgent("Chrome")
+                        .ignoreHttpErrors(true)
+                        .timeout(5000)
+                        .get();
                 Elements fullNews = doc.select("div.news-item__anons");
                 int i = 1;
                 for (Element fullNew : fullNews) {
@@ -63,7 +67,11 @@ public class ChangeLog implements Command {
         //int count = 0;
         Document doc;
         try {
-            doc = Jsoup.connect("http://warthunder.ru/ru/game/changelog/").get();
+            doc = Jsoup.connect("http://warthunder.ru/ru/game/changelog/")
+                    .userAgent("Chrome")
+                    .ignoreHttpErrors(true)
+                    .timeout(5000)
+                    .get();
             Elements fullNews = doc.select("div.news-item__anons");
 //            Elements newsDates = doc.select("span.date");
 //            Elements newsNames = doc.select("a.news-name");
