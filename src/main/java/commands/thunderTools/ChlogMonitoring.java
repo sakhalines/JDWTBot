@@ -3,12 +3,11 @@ package commands.thunderTools;
 import core.SSSS;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class ChlogMonitoring{
 
@@ -84,24 +83,25 @@ public class ChlogMonitoring{
 //        TextChannel gameChannelUpdateMonitoring = jda.getTextChannelsByName(prefix + date, true).get(0);
 
         if (!gameChannelUpdateMonitoring.getName().contains(date)) {
-            //            MessageHistory history = new MessageHistory(jda.getTextChannelById(gameChangelogChannel.getId()));
-//            List<Message> msgs;
-//            try {
-//                while (true) {
-//                    msgs = history.retrievePast(1).complete();
-//                    if (!msgs.get(0).isPinned()) msgs.get(0).delete().queue();
-//                }
-//            } catch (Exception ex) {
-//                //Nichts tun
-//            }
-
-             for (String sendReap : sendReaply) {
-                try {
-                    gameChannelUpdateMonitoring.sendMessage(eb.setDescription(sendReap).build()).queue();
-                    indexPosition++;
-                } catch (Exception e) {
-                    e.printStackTrace();
+            // очистка канала
+            MessageHistory history = new MessageHistory(jda.getTextChannelById(gameChangelogChannel.getId()));
+            List<Message> msgs;
+            try {
+                while (true) {
+                    msgs = history.retrievePast(1).complete();
+                    if (!msgs.get(0).isPinned()) msgs.get(0).delete().queue();
                 }
+            } catch (Exception ex) {}
+
+
+            for (String sendReap : sendReaply) {
+               try {
+                   gameChannelUpdateMonitoring.sendMessage(eb.setDescription(sendReap).build()).queue();
+                   indexPosition++;
+               } catch (Exception e) {
+                   gameChannelUpdateMonitoring.sendMessage(eb.setDescription("Ошибка получения списка обновлений.").build()).queue();
+                   e.printStackTrace();
+               }
             }
 
             // (ВЫЯСНИТЬ ПРИЧИНУ) сначала установить топик, и только потом имя. Иначе канал сбрасывает имя в prefix без даты
