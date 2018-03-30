@@ -48,13 +48,12 @@ public class ChangeLog implements Command {
                 Elements div = doc.select("div.news-item");
                 String date = div.select("span.date").first().text();
                 String title = div.select("div.news-item > h1").first().text();
-                Elements uls = div.select("div.news-item > ul");
+                Elements uls = div.select("div.g-col > ul");
                 Elements lis = uls.select("li");
                 result += ":small_blue_diamond: **" + date + " | " + title +"**\n";
                 for (Element li : lis){
                     result += ":white_small_square: " + li.select("li").text() + "\n";
                 }
-
             }
             catch (IOException e) {
                 e.printStackTrace();
