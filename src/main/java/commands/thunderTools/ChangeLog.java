@@ -20,12 +20,13 @@ import java.util.regex.Pattern;
  * Created by sakhalines on 11.07.2017.
  */
 public class ChangeLog implements Command {
+    private static String changlogURL = "https://warthunder.ru/ru/game/changelog/";
     static String getFullNews(int newsNumber) {
         String urlFullNews = "";
         String result = "";
         Document doc;
             try {
-                doc = Jsoup.connect("http://warthunder.ru/ru/game/changelog/")
+                doc = Jsoup.connect(changlogURL)
                         .userAgent("Chrome")
                         .ignoreHttpErrors(true)
                         .timeout(5000)
@@ -44,7 +45,11 @@ public class ChangeLog implements Command {
             }
 
             try {
-                doc = Jsoup.connect(urlFullNews).get();
+                doc = Jsoup.connect(urlFullNews)
+                        .userAgent("Chrome")
+                        .ignoreHttpErrors(true)
+                        .timeout(5000)
+                        .get();
                 Elements div = doc.select("div.news-item");
                 String date = div.select("span.date").first().text();
                 String title = div.select("div.news-item > h1").first().text();
@@ -66,7 +71,7 @@ public class ChangeLog implements Command {
         //int count = 0;
         Document doc;
         try {
-            doc = Jsoup.connect("http://warthunder.ru/ru/game/changelog/")
+            doc = Jsoup.connect(changlogURL)
                     .userAgent("Chrome")
                     .ignoreHttpErrors(true)
                     .timeout(5000)
