@@ -37,7 +37,7 @@ public class Count implements Command {
         int words = content.split(" ").length;
         int sentences = content.split("[.!?]").length;
 
-        event.getTextChannel().sendMessage(new EmbedBuilder()
+        event.getChannel().sendMessage(new EmbedBuilder()
                 .setColor(Color.green)
                 .setTitle("String Analyzer", null)
                 .setDescription("```" + content + "```")

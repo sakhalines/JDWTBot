@@ -57,7 +57,7 @@ public class Counter implements Command, Serializable {
         CCounter count = new CCounter(name, event.getMember());
 
         if (args.length < 2) {
-            Messages.message(event.getTextChannel(), help(), Color.red);
+            Messages.message(event.getChannel(), help(), Color.red);
             return;
         }
 
@@ -69,7 +69,7 @@ public class Counter implements Command, Serializable {
             counters.put(event.getGuild(), l);
         }
 
-        event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.green).setDescription(
+        event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.green).setDescription(
                 String.format("Создан счетчик `%s`. *(ID: %d)*", name, counters.get(g).size() - 1)
         ).build()).queue();
     }
@@ -78,7 +78,7 @@ public class Counter implements Command, Serializable {
         Guild g = event.getGuild();
 
         if (!counters.containsKey(event.getGuild())) {
-            Messages.message(event.getTextChannel(), "В данный момент на сервере нет счетчиков!", Color.red);
+            Messages.message(event.getChannel(), "В данный момент на сервере нет счетчиков!", Color.red);
             return;
         }
 
@@ -89,7 +89,7 @@ public class Counter implements Command, Serializable {
             if (id > counters.get(g).size() - 1)
                 throw new Exception();
         } catch (Exception e) {
-            Messages.message(event.getTextChannel(), "Пожалуйста, введите действительный ID.", Color.red);
+            Messages.message(event.getChannel(), "Пожалуйста, введите действительный ID.", Color.red);
             return;
         }
 
@@ -99,12 +99,12 @@ public class Counter implements Command, Serializable {
             tcount.count += ammount;
             counters.get(event.getGuild()).remove(id);
             counters.get(event.getGuild()).add(id, tcount);
-            event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.green).setDescription(
+            event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.green).setDescription(
                 String.format("Измененное значение счетчика `%s` to **%d**.", tcount.name, tcount.count)
             ).build()).queue();
         } else {
             CCounter tcount = counters.get(g).get(id);
-            event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.green).setDescription(
+            event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.green).setDescription(
                     String.format("`[%d]`  -  %s  -  **%d**", id, tcount.name, tcount.count)
             ).build()).queue();
         }
@@ -114,7 +114,7 @@ public class Counter implements Command, Serializable {
         Guild g = event.getGuild();
 
         if (!counters.containsKey(g)) {
-            Messages.message(event.getTextChannel(), "В данный момент на сервере нет счетчиков!", Color.red);
+            Messages.message(event.getChannel(), "В данный момент на сервере нет счетчиков!", Color.red);
             return;
         }
 
@@ -125,13 +125,13 @@ public class Counter implements Command, Serializable {
             if (id > counters.get(g).size() - 1)
                 throw new Exception();
         } catch (Exception e) {
-            Messages.message(event.getTextChannel(), "Пожалуйста, введите действительный ID.", Color.red);
+            Messages.message(event.getChannel(), "Пожалуйста, введите действительный ID.", Color.red);
             return;
         }
 
         Member creator = counters.get(g).get(id).getCreator(g);
         if (!creator.equals(event.getMember())) {
-            Messages.error(event.getTextChannel(), String.format("Только создатель счетчика (%s) может удалить этот счетчик.", creator.getAsMention()));
+            Messages.error(event.getChannel(), String.format("Только создатель счетчика (%s) может удалить этот счетчик.", creator.getAsMention()));
             return;
         }
 
@@ -140,7 +140,7 @@ public class Counter implements Command, Serializable {
 
         new File("SERVER_SETTINGS/" + g.getId() + "/counters/counter_" + id + ".dat").delete();
 
-        event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.orange).setDescription(
+        event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.orange).setDescription(
                 String.format("Удалён счётчик `%s` *(%d)*.", tcount.name, id)
         ).build()).queue();
     }
@@ -149,7 +149,7 @@ public class Counter implements Command, Serializable {
         Guild g = event.getGuild();
 
         if (!counters.containsKey(event.getGuild())) {
-            Messages.message(event.getTextChannel(), "В данный момент на сервере нет счетчиков!", Color.red);
+            Messages.message(event.getChannel(), "В данный момент на сервере нет счетчиков!", Color.red);
             return;
         }
 
@@ -158,7 +158,7 @@ public class Counter implements Command, Serializable {
         counters.get(g).forEach(c ->
             sb.append(String.format(":white_small_square:   `[%d]`  -  %s  -  **%d**\n", count.getAndAdd(1), c.name, c.count))
         );
-        event.getTextChannel().sendMessage(new EmbedBuilder()
+        event.getChannel().sendMessage(new EmbedBuilder()
                 .setColor(Color.cyan)
                 .setTitle("Current counters")
                 .setDescription(sb.toString())
@@ -266,16 +266,16 @@ public class Counter implements Command, Serializable {
     public String help() {
         String prfx = STATICS.PREFIX;
         return  "**Использование:**\n" +
-                ":white_small_square:   `"+prfx+"counter add <name>`  -  Add counter\n" +
-                ":white_small_square:   `"+prfx+"counter <id>`  -  Display counter\n" +
-                ":white_small_square:   `"+prfx+"counter <id> <change>`  -  Change counter value\n" +
-                ":white_small_square:   `"+prfx+"counter list`  -  List all counters\n" +
-                ":white_small_square:   `"+prfx+"counter remove <id>`  -  Remove counter\n";
+                ":white_small_square:   `"+prfx+"counter add <name>`  -  Создать счётчик\n" +
+                ":white_small_square:   `"+prfx+"counter <id>`  -  Показать счётчик\n" +
+                ":white_small_square:   `"+prfx+"counter <id> <change>`  -  Изменить значение счётчика\n" +
+                ":white_small_square:   `"+prfx+"counter list`  -  Показать все счётчики\n" +
+                ":white_small_square:   `"+prfx+"counter remove <id>`  -  Удалить счётчик\n";
     }
 
     @Override
     public String description() {
-        return "Create counters";
+        return "Создание счетчиков";
     }
 
     @Override

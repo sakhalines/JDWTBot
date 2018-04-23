@@ -51,7 +51,7 @@ public class Stups implements Command {
             if (args[0].startsWith("@")) {
 
                 if (!event.getGuild().isMember(event.getMessage().getMentionedUsers().get(0))) {
-                    event.getTextChannel().sendMessage(
+                    event.getChannel().sendMessage(
                             ":warning:   This user is not a member of this guild!"
                     ).queue();
                 }
@@ -72,7 +72,7 @@ public class Stups implements Command {
                 event.getMessage().delete().queue();
             }
         } else
-            event.getTextChannel().sendMessage(
+            event.getChannel().sendMessage(
                     ":warning:   Please mention a user from this guild you want to send a nudge!"
             ).queue();
         */

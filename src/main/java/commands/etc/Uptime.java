@@ -48,7 +48,7 @@ public class Uptime implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
-        event.getTextChannel().sendMessage(
+        event.getChannel().sendMessage(
                 new EmbedBuilder()
                         .setColor(new Color(255, 71,0))
                         .setDescription(":alarm_clock:   **UPTIME**")
@@ -67,12 +67,12 @@ public class Uptime implements Command {
 
     @Override
     public String help() {
-        return "Использование: -uptime";
+        return "Использование: " + STATICS.PREFIX + "uptime";
     }
 
     @Override
     public String description() {
-        return "Get stats about the uptime of the bot.";
+        return "Отображение времени бесперебойного работы бота (uptime)";
     }
 
     @Override

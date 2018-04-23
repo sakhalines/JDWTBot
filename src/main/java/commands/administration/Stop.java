@@ -27,11 +27,11 @@ public class Stop implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
-        if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
+        if (!Perms.isOwner(event.getAuthor(), event.getChannel())) return;
 
         BotStats.save();
 
-        //event.getTextChannel().sendMessage(":warning: :mobile_phone_off:   " + event.getAuthor().getAsMention() + " shut down " + event.getJDA().getSelfUser().getAsMention() + " because of maintenance or an unexpected behavior.").queue();
+        //event.getChannel().sendMessage(":warning: :mobile_phone_off:   " + event.getAuthor().getAsMention() + " shut down " + event.getJDA().getSelfUser().getAsMention() + " because of maintenance or an unexpected behavior.").queue();
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
@@ -48,12 +48,12 @@ public class Stop implements Command {
 
     @Override
     public String help() {
-        return "Использование: -stop";
+        return "Использование: " + STATICS.PREFIX + "stop";
     }
 
     @Override
     public String description() {
-        return "Emergency stop the bot.";
+        return "Остановка бота";
     }
 
     @Override

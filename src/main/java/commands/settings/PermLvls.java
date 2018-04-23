@@ -29,7 +29,7 @@ public class PermLvls implements Command {
         if (core.Perms.check(permission(), event)) return;
 
         if (args.length < 2) {
-            event.getTextChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
+            event.getChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
             return;
         }
 
@@ -40,20 +40,20 @@ public class PermLvls implements Command {
 
             case "1":
                 SSSS.setPERMROLES_1(sb.toString().substring(0, sb.toString().length() - 1), event.getGuild());
-                event.getTextChannel().sendMessage(MSGS.success().setDescription("Successfully set roles `" + sb.toString().substring(0, sb.toString().length() - 1) + "` to permission level `" + args[0] + "`").build()).queue();
+                event.getChannel().sendMessage(MSGS.success().setDescription("Successfully set roles `" + sb.toString().substring(0, sb.toString().length() - 1) + "` to permission level `" + args[0] + "`").build()).queue();
                 break;
 
             case "2":
                 SSSS.setPERMROLES_2(sb.toString().substring(0, sb.toString().length() - 1), event.getGuild());
-                event.getTextChannel().sendMessage(MSGS.success().setDescription("Successfully set roles `" + sb.toString().substring(0, sb.toString().length() - 1) + "` to permission level `" + args[0] + "`").build()).queue();
+                event.getChannel().sendMessage(MSGS.success().setDescription("Successfully set roles `" + sb.toString().substring(0, sb.toString().length() - 1) + "` to permission level `" + args[0] + "`").build()).queue();
                 break;
             case "3":
                 SSSS.setPERMROLES_3(sb.toString().substring(0, sb.toString().length() - 1), event.getGuild());
-                event.getTextChannel().sendMessage(MSGS.success().setDescription("Successfully set roles `" + sb.toString().substring(0, sb.toString().length() - 1) + "` to permission level `" + args[0] + "`").build()).queue();
+                event.getChannel().sendMessage(MSGS.success().setDescription("Successfully set roles `" + sb.toString().substring(0, sb.toString().length() - 1) + "` to permission level `" + args[0] + "`").build()).queue();
                 break;
 
             default:
-                event.getTextChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
+                event.getChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
                 break;
 
         }
@@ -67,12 +67,12 @@ public class PermLvls implements Command {
 
     @Override
     public String help() {
-        return "Использование: -permlvl <lvl 1/2/3> <role1>, <role2>, ...";
+        return "Использование: " + STATICS.PREFIX + "permlvl <lvl 1/2/3> <role1>, <role2>, ...";
     }
 
     @Override
     public String description() {
-        return "Set roles for permission levels.";
+        return "Установка уровней доступа для ролей сервера";
     }
 
     @Override

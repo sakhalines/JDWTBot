@@ -25,17 +25,17 @@ public class CheckUpdate implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
-        if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
+        if (!Perms.isOwner(event.getAuthor(), event.getChannel())) return;
 
         if (args.length == 1){
             if (args[0].equalsIgnoreCase("stable"))
-                UpdateClient.update(event.getMessage().getTextChannel(), true);
+                UpdateClient.update(event.getMessage().getChannel(), true);
             else if (args[0].equalsIgnoreCase("pre"))
-                UpdateClient.update(event.getMessage().getTextChannel(), false);
+                UpdateClient.update(event.getMessage().getChannel(), false);
         }
 
         else
-            UpdateClient.manualCheck(event.getMessage().getTextChannel());
+            UpdateClient.manualCheck(event.getMessage().getChannel());
 
     }
 
@@ -48,17 +48,17 @@ public class CheckUpdate implements Command {
     public String help() {
         return "**Использование:** `.checkupdate [release]` или `.chkupd [release]`" +
                 "Без параметров используется только для проверки доступных обновлений.\n" +
-                "Параметр `[release]` служит для обновления и может быть двух видов:" +
+                "Параметр `[release]` служит для обновления и может быть двух видов:\n" +
                 "       `stable` - обновить до последней стабильной версии.\n" +
                 "       `pre` - обновить до последней предваритльной версии.\n" +
                 "Примеры:" +
-                "       `.chkupd stable`" +
+                "       `.chkupd stable`\n" +
                 "       .checkupdate pre";
     }
 
     @Override
     public String description() {
-        return "Проверка и обновление JDWTBot.";
+        return "Проверка и обновление JDWTBot";
     }
 
     @Override

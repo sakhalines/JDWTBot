@@ -38,15 +38,15 @@ public class VoiceKick implements Command {
                 String vc = sb.toString().substring(1);
                 if (event.getGuild().getVoiceChannelsByName(vc, true).size() > 0) {
                     SSSS.setVKICKCHANNEL(vc, event.getGuild());
-                    event.getTextChannel().sendMessage(MSGS.success().setDescription("Successfully set voice kick channel to `" + vc + "`").build()).queue();
+                    event.getChannel().sendMessage(MSGS.success().setDescription("Successfully set voice kick channel to `" + vc + "`").build()).queue();
                     return;
                 } else {
-                    event.getTextChannel().sendMessage(MSGS.error().setDescription("Please enter a valid voice channel existing on this guild.").build()).queue();
+                    event.getChannel().sendMessage(MSGS.error().setDescription("Please enter a valid voice channel existing on this guild.").build()).queue();
                     return;
                 }
 
             } else {
-                event.getTextChannel().sendMessage(MSGS.error().setDescription("Please enter a valid voice channel existing on this guild.").build()).queue();
+                event.getChannel().sendMessage(MSGS.error().setDescription("Please enter a valid voice channel existing on this guild.").build()).queue();
                 return;
             }
         }
@@ -65,7 +65,7 @@ public class VoiceKick implements Command {
             List<VoiceChannel> vc = event.getGuild().getVoiceChannelsByName(SSSS.getVKICKCHANNEL(event.getGuild()), true);
 
             if (vc.size() == 0) {
-                event.getTextChannel().sendMessage(MSGS.error().setDescription("There is no voice channel set or it is no more existent on this guild.\nPlease set a valid voice channel with `-vkick channel <channel name>`.").build()).queue();
+                event.getChannel().sendMessage(MSGS.error().setDescription("There is no voice channel set or it is no more existent on this guild.\nPlease set a valid voice channel with `-vkick channel <channel name>`.").build()).queue();
                 return;
             }
 
@@ -77,7 +77,7 @@ public class VoiceKick implements Command {
 
                 kicks.put(victim, current);
 
-                event.getTextChannel().sendMessage(new EmbedBuilder()
+                event.getChannel().sendMessage(new EmbedBuilder()
                     .setColor(new Color(0xFF0036))
                     .setDescription(":boot:  " + event.getAuthor().getAsMention() + " (*" + event.getMember().getRoles().get(0).getName() + "*) kicked " + victim.getAsMention() +
                             " out of the voice channel `" + current.getName() + "` with a rejoin timeout of **" + timeout + " seconds**.")
@@ -92,7 +92,7 @@ public class VoiceKick implements Command {
                     }
                 }, timeout * 1000);
             } else {
-                event.getTextChannel().sendMessage(new EmbedBuilder()
+                event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(new Color(0xFF0036))
                         .setDescription(":boot:  " + event.getAuthor().getAsMention() + " (*" + event.getMember().getRoles().get(0).getName() + "*) kicked " + victim.getAsMention() +
                                 " out of the voice channel `" + current.getName() + "`.")
@@ -112,14 +112,14 @@ public class VoiceKick implements Command {
 
     @Override
     public String help() {
-        return "Использование: \n" +
-                "**-vkick <@user> (<timeout in seconds>)**  -  `Kick someone out of the voice channel (if timeout is entered, the kicked user cant rejoin the channel in timeout period)`\n" +
-                "**-vkick channel <channel name>**  -  `Set the voice kick channel`";
+        return "Использование: **" + STATICS.PREFIX +
+                "vkick <@user> (<таймаут в секундах>)**  -  `Выгнать пользователя с вашего голосового канала (пользоатель не сможет присоединится до истечения таймаута)`\n" +
+                "** " + STATICS.PREFIX + "vkick channel <название канала>**  -  `Установить голосовой канал для изгнанных пользователей`";
     }
 
     @Override
     public String description() {
-        return "Kick people out of your voice channel";
+        return "Выгнать пользователя с вашего голосового канала";
     }
 
     @Override

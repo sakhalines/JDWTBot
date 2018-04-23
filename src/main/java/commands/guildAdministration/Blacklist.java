@@ -53,21 +53,21 @@ public class Blacklist implements Command {
             if (event.getMessage().getMentionedUsers().size() > 0)
                 victim = event.getMessage().getMentionedUsers().get(0);
             else {
-                event.getTextChannel().sendMessage(MSGS.error().setDescription("Please mention a valid user to blacklist.").build()).queue();
+                event.getChannel().sendMessage(MSGS.error().setDescription("Please mention a valid user to blacklist.").build()).queue();
                 return;
             }
             if (blackList.contains(victim.getId())) {
                 blackList.remove(victim.getId());
-                event.getTextChannel().sendMessage(MSGS.success().setDescription("Successfully removed " + victim.getAsMention() + " from blacklist.").build()).queue();
+                event.getChannel().sendMessage(MSGS.success().setDescription("Successfully removed " + victim.getAsMention() + " from blacklist.").build()).queue();
             } else {
                 blackList.add(victim.getId());
-                event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.orange).setDescription(event.getAuthor().getAsMention() + " added " + victim.getAsMention() + " to blacklist.").build()).queue();
+                event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.orange).setDescription(event.getAuthor().getAsMention() + " added " + victim.getAsMention() + " to blacklist.").build()).queue();
             }
             System.out.println(blackList.size());
             SSSS.setBLACKLIST(blackList, event.getGuild());
         } else {
             String out = blackList.stream().map(id -> ":white_small_square:   " + event.getGuild().getMemberById(id).getEffectiveName()).collect(Collectors.joining("\n"));
-            event.getTextChannel().sendMessage(new EmbedBuilder().setDescription("**BLACKLISTED MEMBERS**\n\n" + out).build()).queue();
+            event.getChannel().sendMessage(new EmbedBuilder().setDescription("**BLACKLISTED MEMBERS**\n\n" + out).build()).queue();
         }
     }
 
@@ -83,7 +83,7 @@ public class Blacklist implements Command {
 
     @Override
     public String description() {
-        return "Disallow users to use the bots commands.";
+        return "Запретить ползователю ипользование бота.";
     }
 
     @Override

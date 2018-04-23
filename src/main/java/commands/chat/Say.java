@@ -27,7 +27,7 @@ public class Say implements Command {
             }
         }
 
-        event.getTextChannel().sendMessage(":loudspeaker:   " + output).queue();
+        event.getChannel().sendMessage(":loudspeaker:   " + output).queue();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Say implements Command {
 
     @Override
     public String help() {
-        return "Использование: -say <сообщение>";
+        return "Использование: " + STATICS.PREFIX + "say <сообщение>";
     }
 
     @Override

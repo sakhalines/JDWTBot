@@ -7,13 +7,13 @@ import commands.essentials.*;
 import commands.etc.*;
 import commands.guildAdministration.*;
 import commands.settings.*;
-import commands.thunderTools.ChangeLog;
+import commands.thunderTools.GameChangelog;
+import commands.thunderTools.GameNews;
 import commands.thunderTools.Skill;
 import listeners.*;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import utils.STATICS;
 
 import javax.security.auth.login.LoginException;
@@ -82,15 +82,20 @@ public class Main {
 
         try {
             builder.buildBlocking();
-        } catch (InterruptedException | RateLimitedException | LoginException e) {
+        } catch (InterruptedException | LoginException e) { //| RateLimitedException
             e.printStackTrace();
         }
 
     }
 
     private static void initializeCommands() {
-        commands.put("chlog", new ChangeLog());
+        commands.put("gameChangelog", new GameChangelog());
+        commands.put("chlog", new GameChangelog());
+        commands.put("gameNews", new GameNews()); // алиас
+        commands.put("gnews", new GameNews()); // алиас
         commands.put("skill", new Skill());
+        commands.put("updmsgon", new BotUpdateMessageEnable());
+        commands.put("updmsgoff", new BotUpdateMessageDisable());
         commands.put("ping", new Ping());
         commands.put("clear", new Clear());
         commands.put("purge", new Clear());
@@ -144,7 +149,7 @@ public class Main {
         builder.addEventListener(new ReconnectListener());
         builder.addEventListener(new VoiceChannelListener());
         builder.addEventListener(new GuildJoinListener());
-        builder.addEventListener(new PrivateMessageListener());
+        //builder.addEventListener(new PrivateMessageListener());
         builder.addEventListener(new ReactionListener());
         builder.addEventListener(new VkickListener());
 //        builder.addEventListener(new ServerLimitListener());

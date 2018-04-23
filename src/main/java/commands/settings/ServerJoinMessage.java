@@ -27,7 +27,7 @@ public class ServerJoinMessage implements Command {
         if (core.Perms.check(permission(), event)) return;
 
         if (args.length < 1) {
-            event.getTextChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
+            event.getChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
             return;
         }
 
@@ -35,7 +35,7 @@ public class ServerJoinMessage implements Command {
         Arrays.stream(args).forEach(s -> sb.append(s + " "));
 
         SSSS.setSERVERJOINMESSAGE(sb.toString().substring(0, sb.toString().length() - 1), event.getGuild());
-        event.getTextChannel().sendMessage(MSGS.success().setDescription("Сообщение при подключении к серверу изменено на `" + sb.toString().substring(0, sb.toString().length() - 1) + "`.").build()).queue();
+        event.getChannel().sendMessage(MSGS.success().setDescription("Сообщение при подключении к серверу изменено на `" + sb.toString().substring(0, sb.toString().length() - 1) + "`.").build()).queue();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ServerJoinMessage implements Command {
 
     @Override
     public String description() {
-        return "Установка сообщения при подключении к серверу.";
+        return "Установка сообщения при подключении пользователя к серверу";
     }
 
     @Override

@@ -31,19 +31,19 @@ public class CommonClass {
                 "    **c** - послать ответ в текущий канал\n" +
                 "    **u** - обновить статистику игрока перед ответом (доступно один раз в сутки)\n" +
                 "Примеры:\n" +
-                "    **.skill u s с SuperGamer**\n" +
+                "    **.skill u s с SuperGamer** или **.skill usс SuperGamer**\n" +
                 "пришлёт статистику симуляторных боёв игрока SuperGamer в текущий канал предварительно обновив её.";
-
+        String errorType = "";
         if (errorDescription == "wrongParamLenght") {
-            helpText = "\n\n**Не верное число аргументов.**" + helpText;
+            errorType += "\n\n**Не верное количество аргументов.**";
         }
         else if (errorDescription == "wrongPlayerName") {
-            helpText = "\n\n**Не задан ник игрока.**" + helpText;
+            errorType = "\n\n**Не задан ник игрока.**";
         }
         else if (errorDescription == "wrongGameMode") {
-            helpText = "\n\n**Не верный режим игры.**" + helpText;
+            errorType = "\n\n**Не верный режим игры.**";
         }
-        return helpText;
+        return errorType + helpText;
     }
 
     static void sendPostRequest(String playerNick) throws IOException {

@@ -30,7 +30,7 @@ public class Spacer implements Command {
         if (core.Perms.check(1, event)) return;
 
         if (args.length < 1) {
-            event.getTextChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
+            event.getChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
             return;
         }
 
@@ -40,7 +40,7 @@ public class Spacer implements Command {
             case "create":
 
                 if (!event.getMember().getVoiceState().inVoiceChannel()) {
-                    event.getTextChannel().sendMessage(MSGS.error().setDescription("You need to be in a voice channel to add a spacer.").build()).queue();
+                    event.getChannel().sendMessage(MSGS.error().setDescription("You need to be in a voice channel to add a spacer.").build()).queue();
                     return;
                 }
 
@@ -60,12 +60,12 @@ public class Spacer implements Command {
 
     @Override
     public String help() {
-        return "**Использование:\n**Create a spacer under the voice channel you are in with\n`-spacer create` or `-spacer add`";
+        return "**Использование: \n**Создание пространства под голосовым каналом в котором вы находитесь\n` " + STATICS.PREFIX + "create` или ` " + STATICS.PREFIX + "spacer add`";
     }
 
     @Override
     public String description() {
-        return "Create spacer voice channels";
+        return "Создание пространства под голосовым каналом в котором вы находитесь";
     }
 
     @Override

@@ -33,7 +33,7 @@ public class Botmessage implements Command {
         if (!custom) {
             jda.getGuilds().forEach(g -> g.getMembers().forEach(m -> count()));
             //jda.getPresence().setGame(Game.of("Участиков " + members + " | v." + STATICS.VERSION));
-            jda.getPresence().setGame(Game.of(".help для справки"));
+            jda.getPresence().setGame(Game.of(Game.GameType.LISTENING, " \".help\" для справки"));
             members = 0;
         }
     }
@@ -47,7 +47,7 @@ public class Botmessage implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
-        if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
+        if (!Perms.isOwner(event.getAuthor(), event.getChannel())) return;
 
         custom = true;
 
@@ -55,13 +55,13 @@ public class Botmessage implements Command {
 
         if (messageString.equals("off")) {
             custom = false;
-            event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.GREEN).setDescription("Установлено сообщение по умолчанию!").build()).queue();
+            event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.GREEN).setDescription("Установлено сообщение по умолчанию!").build()).queue();
             return;
         }
 
         //event.getJDA().getPresence().setGame(Game.of(messageString + " | v." + STATICS.VERSION));
-        event.getJDA().getPresence().setGame(Game.of(messageString + " | .help для справки"));
-        event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.GREEN).setDescription("Установлено сообщение: `" + messageString + "`!").build()).queue();
+        event.getJDA().getPresence().setGame(Game.of(Game.GameType.LISTENING, messageString + " \".help\" для справки"));
+        event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.GREEN).setDescription("Установлено сообщение: `" + messageString + "`!").build()).queue();
 
     }
 
@@ -72,12 +72,12 @@ public class Botmessage implements Command {
 
     @Override
     public String help() {
-        return "Использование: -botmsg <сообщение>";
+        return "Использование: " + STATICS.PREFIX + "botmsg <сообщение>";
     }
 
     @Override
     public String description() {
-        return "Set the \"Playing ...\" message of the bot.";
+        return "Установка статусного сообщения бота";
     }
 
     @Override

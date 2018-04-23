@@ -31,9 +31,9 @@ public class Restart implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
-        if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
+        if (!Perms.isOwner(event.getAuthor(), event.getChannel())) return;
 
-        event.getTextChannel().sendMessage(":warning:  Бот перезапускается...").queue();
+        event.getChannel().sendMessage(":warning:  Бот перезапускается...").queue();
         restart("restart", new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName());
     }
 
@@ -113,12 +113,12 @@ public class Restart implements Command {
 
     @Override
     public String help() {
-        return "Использование: -restart";
+        return "Использование: " + STATICS.PREFIX + "restart";
     }
 
     @Override
     public String description() {
-        return "Restart the bot.";
+        return "Перезагрузить бота";
     }
 
     @Override

@@ -28,6 +28,8 @@ public class SettingsCore {
         static final String UPDATE_INFO = "UPDATE_INFO";
         static final String GAME_CHANGELOG_UPDATE_INTERVAL = "GAME_CHANGELOG_UPDATE_INTERVAL";
         static final String GAME_CHANGELOG_CHANNEL_PREFIX = "GAME_CHANGELOG_CHANNEL_PREFIX";
+        static final String GAME_NEWS_UPDATE_INTERVAL = "GAME_NEWS_UPDATE_INTERVAL";
+        static final String GAME_NEWS_CHANNEL_PREFIX = "GAME_NEWS_CHANNEL_PREFIX";
         static final String GUILD_JOIN_ROLE = "GUILD_JOIN_ROLE";
         static final String DISCORD_JOIN_MESSAGE = "DISCORD_JOIN_MESSAGE";
         static final String FULL_PERMISSION_ROLES = "FULL_PERMISSION_ROLES";
@@ -61,7 +63,7 @@ public class SettingsCore {
                             "    # Bot owners user ID\n" +
                             "        BOT_OWNER_ID = 0\n" +
                             "    # Custom message shown as \"Now Playing: ...\" text\n" +
-                            "        CUSTOM_PLAYING_MESSAGE = \" | .help для справки\"\n" +
+                            "        CUSTOM_PLAYING_MESSAGE = \" \".help\" для справки\"\n" +
                             "    # Log entered command in console of the bot\n" +
                             "        COMMAND_CONSOLE_OUTPUT = true\n" +
                             "    # Automatically check for updates and inform you if there is a new update available\n" +
@@ -78,10 +80,14 @@ public class SettingsCore {
                             "\n" +
                             "# CHANNEL SETTINGS #\n" +
                             "\n" +
+                            "    # префикс для канала, в котором будут публиковаться обновления игры War Thunder. После префикса автоматически будет добавляться дата последнего обновления\n" +
+                            "        GAME_CHANGELOG_CHANNEL_PREFIX = \"game_changelog_\"\n" +
                             "    # частота проверки информации об обновлении игры War Thunder в минутах, или \"OFF\" для отключения мониторинга\n" +
                             "       GAME_CHANGELOG_UPDATE_INTERVAL = \"OFF\"\n" +
-                            "    # префикс для канала, в котором будут публиковаться обновления игры War Thunder. После префикса автоматически будет добавляться дата последнего обновления\n" +
-                            "        GAME_CHANGELOG_CHANNEL_PREFIX = \"chlog_\"\n" +
+                            "    # префикс для канала, в котором будут публиковаться новости игры War Thunder. После префикса автоматически будет добавляться дата последнего обновления\n" +
+                            "        GAME_NEWS_CHANNEL_PREFIX = \"game_news_\"\n" +
+                            "    # частота проверки информации об обновлении новостей игры War Thunder в минутах, или \"OFF\", для отключения мониторинга\n" +
+                            "        GAME_NEWS_UPDATE_INTERVAL = \"OFF\"\n" +
                             "    # Alternative voice channel vor vkicks\n" +
                             "        KICK_VOICE_CHANNEL = \"Lobby\"\n" +
                             "\n" +
@@ -109,6 +115,8 @@ public class SettingsCore {
             STATICS.autoUpdate = toml.getBoolean(SCONT.UPDATE_INFO);
             STATICS.gameChangelogChannelPrefix = toml.getString(SCONT.GAME_CHANGELOG_CHANNEL_PREFIX);
             STATICS.gameChangelogUpdateInterval = toml.getString(SCONT.GAME_CHANGELOG_UPDATE_INTERVAL);
+            STATICS.gameNewsChannelPrefix = toml.getString(SCONT.GAME_NEWS_CHANNEL_PREFIX);
+            STATICS.gameNewsUpdateInterval = toml.getString(SCONT.GAME_NEWS_UPDATE_INTERVAL);
             STATICS.guildJoinRole = toml.getString(SCONT.GUILD_JOIN_ROLE);
             STATICS.discordJoinMessage = toml.getString(SCONT.DISCORD_JOIN_MESSAGE);
             STATICS.MEMBERPERMS = toml.getString(SCONT.MEMBER_PERMISSION_ROLES).split(", ");

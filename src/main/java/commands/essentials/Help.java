@@ -48,21 +48,21 @@ public class Help implements Command {
         if (args.length > 0) {
             if (Main.commands.containsKey(args[0]))
                 if (Main.commands.get(args[0]).help() != null)
-                    event.getTextChannel().sendMessage(
+                    event.getChannel().sendMessage(
                             eb.setColor(new Color(22, 138, 233)).setDescription(Main.commands.get(args[0]).help()).build()
                     ).queue();
                 else
-                    event.getTextChannel().sendMessage(
+                    event.getChannel().sendMessage(
                             eb.setColor(Color.red).setDescription(":warning:  В настоящее время нет информации для команды  *" + cmdPrefix + args[0] + "* !").build()
                     ).queue();
             else
-                event.getTextChannel().sendMessage(
+                event.getChannel().sendMessage(
                         eb.setColor(Color.red).setDescription(":warning:  Список команд не содержит информацию для команды *"  + cmdPrefix + args[0] + "* !").build()
                 ).queue();
             return;
         }
 
-        event.getMessage().delete().queue();
+        //event.getMessage().delete().queue();
 
         Map<String, String> cmds = new TreeMap<>();
         Main.commands.forEach((s, command) -> cmds.put(s, command.description()));

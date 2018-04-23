@@ -28,7 +28,7 @@ public class Kick implements Command {
             reason = args[1];
         }
 
-        event.getTextChannel().sendMessage(
+        event.getChannel().sendMessage(
                 ":small_red_triangle_down:  " + event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)).getAsMention() + " got kicked by " + event.getAuthor().getAsMention() + " (" + event.getMember().getRoles().get(0).getName() + ").\n\n" +
                         "Reason: " + reason
         ).queue();
@@ -54,12 +54,12 @@ public class Kick implements Command {
 
     @Override
     public String help() {
-        return null;
+        return "Выгнать пользователя с канала.";
     }
 
     @Override
     public String description() {
-        return "Kick a member from the server.";
+        return "Выгнать пользователя с канала.";
     }
 
     @Override

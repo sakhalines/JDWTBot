@@ -28,7 +28,7 @@ public class ServerLeftMessage implements Command {
         if (core.Perms.check(permission(), event)) return;
 
         if (args.length < 1) {
-            event.getTextChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
+            event.getChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
             return;
         }
 
@@ -36,7 +36,7 @@ public class ServerLeftMessage implements Command {
         Arrays.stream(args).forEach(s -> sb.append(s + " "));
 
         SSSS.setSERVERLEAVEMESSAGE(sb.toString().substring(0, sb.toString().length() - 1), event.getGuild());
-        event.getTextChannel().sendMessage(MSGS.success().setDescription("Server leave message successfully changed to `" + sb.toString().substring(0, sb.toString().length() - 1) + "`.").build()).queue();
+        event.getChannel().sendMessage(MSGS.success().setDescription("Server leave message successfully changed to `" + sb.toString().substring(0, sb.toString().length() - 1) + "`.").build()).queue();
     }
 
     @Override
@@ -46,14 +46,15 @@ public class ServerLeftMessage implements Command {
 
     @Override
     public String help() {
-        return "Использование: -leavemsg <сообщение>\n" +
-                "Set message to `OFF` to disable server leave message.\n" +
-                "Use `[USER]` to mention leaved user and `[GUILD]` to enter guild name in message.";
+        return "Использование: " + STATICS.PREFIX + "joinmsg <сообщение>\n" +
+                "Установите в `OFF` для отключения сообщения при подключении к серверу.\n" +
+                "Переменные: `[USER]` - имя подключившегося пользователя\n" +
+                "           `[GUILD]` название этого сервера.";
     }
 
     @Override
     public String description() {
-        return "Set the message when a guild member leaves the guild.";
+        return "Установка сообщения при отключении пользователя от сервера";
     }
 
     @Override

@@ -29,18 +29,18 @@ public class Guilds implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
-        if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
+        if (!Perms.isOwner(event.getAuthor(), event.getChannel())) return;
 
         if ((args.length > 1 ? args[0] : "").equalsIgnoreCase("info")) {
             Guild g;
             try {
                 g = event.getJDA().getGuildById(args[1]);
             } catch (Exception e) {
-                event.getTextChannel().sendMessage(MSGS.error().setDescription("There is no guild with the entered ID.").build()).queue();
+                event.getChannel().sendMessage(MSGS.error().setDescription("There is no guild with the entered ID.").build()).queue();
                 return;
             }
 
-            event.getTextChannel().sendMessage(new EmbedBuilder()
+            event.getChannel().sendMessage(new EmbedBuilder()
                     .setTitle("Guild information for guild " + g.getName(), null)
                     .setThumbnail(g.getIconUrl())
                     .setDescription("\n\n")
@@ -64,9 +64,9 @@ public class Guilds implements Command {
         ));
 
         if (sb.toString().length() > 2000)
-            event.getTextChannel().sendMessage("**Guilds:**\n\n" + sb.toString()).queue();
+            event.getChannel().sendMessage("**Guilds:**\n\n" + sb.toString()).queue();
         else
-            event.getTextChannel().sendMessage(new EmbedBuilder().setTitle("Guilds", null).setDescription(sb.toString()).build()).queue();
+            event.getChannel().sendMessage(new EmbedBuilder().setTitle("Guilds", null).setDescription(sb.toString()).build()).queue();
 
     }
 
@@ -82,7 +82,7 @@ public class Guilds implements Command {
 
     @Override
     public String description() {
-        return "Get list of guilds bot is running on";
+        return "Получить список серверов где запущен бот.";
     }
 
     @Override

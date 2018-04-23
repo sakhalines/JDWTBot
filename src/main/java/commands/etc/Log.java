@@ -64,14 +64,14 @@ public class Log implements Command {
 
         if ((args.length > 0 ? args[0] : "").equalsIgnoreCase("clear")) {
 
-            if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
+            if (!Perms.isOwner(event.getAuthor(), event.getChannel())) return;
 
             if (f.exists()) {
                 if (f.delete()) {
                     f.createNewFile();
-                    event.getTextChannel().sendMessage(MSGS.success().setDescription("Successfully cleared log file.").build()).queue();
+                    event.getChannel().sendMessage(MSGS.success().setDescription("Successfully cleared log file.").build()).queue();
                 } else {
-                    event.getTextChannel().sendMessage(MSGS.error().setDescription("Failed while attempting to clear log file.").build()).queue();
+                    event.getChannel().sendMessage(MSGS.error().setDescription("Failed while attempting to clear log file.").build()).queue();
                 }
             }
             return;
@@ -85,7 +85,7 @@ public class Log implements Command {
             StringBuilder sb = new StringBuilder();
             //StringBuilder sbFull = new StringBuilder();
             //String shorted = "Unshorted log.";
-            //Message msg = event.getTextChannel().sendMessage(new EmbedBuilder().setDescription("Uploading log to hastebin.com ...").build()).complete();
+            //Message msg = event.getChannel().sendMessage(new EmbedBuilder().setDescription("Uploading log to hastebin.com ...").build()).complete();
 
             br.lines().forEach(l -> logLines.add(l));
             //logLines.forEach(l -> sbFull.append(l + "\n"));
@@ -101,7 +101,7 @@ public class Log implements Command {
 
             //msg.delete().queue();
 
-            event.getTextChannel().sendMessage(
+            event.getChannel().sendMessage(
                     "__**zekroBot `screenlog.0` log**__\n\n" +
                          //"*" + shorted + "*\n\n" +
                          "```" +
@@ -111,7 +111,7 @@ public class Log implements Command {
 
         } else {
 
-            event.getTextChannel().sendMessage(MSGS.error().setDescription("There is no file `'screenlog.0'` available to get log from.").build()).queue();
+            event.getChannel().sendMessage(MSGS.error().setDescription("There is no file `'screenlog.0'` available to get log from.").build()).queue();
 
         }
 
@@ -129,7 +129,7 @@ public class Log implements Command {
 
     @Override
     public String description() {
-        return "Show bots log file";
+        return "Показать лог файл бота";
     }
 
     @Override

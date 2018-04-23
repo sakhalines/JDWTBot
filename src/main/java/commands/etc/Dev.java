@@ -62,7 +62,7 @@ public class Dev implements Command {
                     .setColor(Color.cyan)
                     .addField("Использование:", "-dev <language> <language2> <language3> ...", false)
                     .addField("Languages", langs.toString(), false);
-            event.getTextChannel().sendMessage(eb.build()).queue();
+            event.getChannel().sendMessage(eb.build()).queue();
         } else {
 
             try {
@@ -78,13 +78,13 @@ public class Dev implements Command {
                 StringBuilder sb = new StringBuilder();
                 rolesToAdd.forEach(role -> sb.append(role.getName() + ", "));
 
-                event.getTextChannel().sendMessage(
+                event.getChannel().sendMessage(
                         new EmbedBuilder().setColor(Color.green).setDescription(event.getAuthor().getAsMention() + ", you got the following roles: \n\n" + sb.toString().substring(0, sb.toString().length() - 1)).build()
                 ).queue();
 
             } catch (Exception e) {
                 e.printStackTrace();
-                event.getTextChannel().sendMessage(
+                event.getChannel().sendMessage(
                         new EmbedBuilder().setColor(Color.red).setDescription("Please enter valid role names that are listed! Use *-dev* to get the language list. If you want a special language added, please contact a Moderator or Admin to add you the special role.").build()
                 ).queue();
             }

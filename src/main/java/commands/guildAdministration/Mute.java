@@ -84,7 +84,7 @@ public class Mute implements Command {
         EmbedBuilder err = new EmbedBuilder().setColor(Color.WHITE);
         EmbedBuilder ok = new EmbedBuilder().setColor(e.getMember().getColor());
         if (type.equalsIgnoreCase("ok")) {
-            Message msg = e.getTextChannel().sendMessage(
+            Message msg = e.getChannel().sendMessage(
                     ok.setDescription(message).build()
             ).complete();
             new Timer().schedule(new TimerTask() {
@@ -95,7 +95,7 @@ public class Mute implements Command {
             }, seconds * 1000);
         }
         if (type.equalsIgnoreCase("err")) {
-            Message msg = e.getTextChannel().sendMessage(
+            Message msg = e.getChannel().sendMessage(
                     err.setDescription(message).build()
             ).complete();
             new Timer().schedule(new TimerTask() {
@@ -141,12 +141,12 @@ public class Mute implements Command {
     @Override
     public String help() {
          return "Использование:\n" +                                                    // EDIT BY zekro
-                "**mute <userID> <reason>**  -  `Mute/Unmute a Member`";        //
+                "**mute <userID> <причина>**  -  `Mute/Unmute a Member`";        //
     }
 
     @Override
     public String description() {
-        return "Mute/Unmute a Member";
+        return "Отключение голоса пользователя";
     }
 
     @Override

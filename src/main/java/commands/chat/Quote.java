@@ -28,13 +28,13 @@ public class Quote implements Command {
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
         if (args.length < 1) {
-            event.getTextChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
+            event.getChannel().sendMessage(MSGS.error().setDescription(help()).build()).queue();
             return;
         }
 
         event.getMessage().delete().queue();
 
-        Message chanMSG = event.getTextChannel().sendMessage(new EmbedBuilder().setDescription("Searching for message in text channels...").build()).complete();
+        Message chanMSG = event.getChannel().sendMessage(new EmbedBuilder().setDescription("Searching for message in text channels...").build()).complete();
 
         List<Message> msg = new ArrayList<>();
         event.getGuild().getTextChannels().forEach(c -> {
@@ -52,7 +52,7 @@ public class Quote implements Command {
 
         chanMSG.editMessage(new EmbedBuilder()
                 .setAuthor(msg.get(0).getAuthor().getName(), null, msg.get(0).getAuthor().getAvatarUrl())
-                .setDescription(msg.get(0).getContent())
+                .setDescription(msg.get(0).getContentDisplay())
                 .setFooter(
                         msg.get(0).getCreationTime().getDayOfMonth() + ". " +
                                 msg.get(0).getCreationTime().getMonth() + " " +

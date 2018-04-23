@@ -4,7 +4,7 @@ import commands.administration.Restart;
 import listeners.ReadyListener;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,7 +77,7 @@ public class UpdateClient {
 
     }
 
-    public static void manualCheck(TextChannel channel) {
+    public static void manualCheck(MessageChannel channel) {
 
         if (isUdate())
             sendUpdateMsg(channel);
@@ -87,7 +87,7 @@ public class UpdateClient {
     }
 
 
-    public static void update(TextChannel channel, boolean stable) throws IOException {
+    public static void update(MessageChannel channel, boolean stable) throws IOException {
         if (isUdate()) {
             channel.sendMessage(new EmbedBuilder().setColor(Color.green).setDescription("Загрузка обновления...").build()).queue();
 

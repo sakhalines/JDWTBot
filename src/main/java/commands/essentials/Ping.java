@@ -39,7 +39,7 @@ public class Ping implements Command {
     public void action(String[] args, MessageReceivedEvent event) {
         long processing = new Date().getTime() - inputTime;
         long ping = event.getJDA().getPing();
-        event.getTextChannel().sendMessage(new EmbedBuilder().setColor(getColorByPing(ping)).setDescription(
+        event.getChannel().sendMessage(new EmbedBuilder().setColor(getColorByPing(ping)).setDescription(
                 String.format(":ping_pong:   **Понг!**\n\nОтвет за`%s` мсек.\nИз них `%s` мсек. на обработку команды и `%s` мсек на пинг.",
                         processing + ping, processing, ping)
         ).build()).queue();

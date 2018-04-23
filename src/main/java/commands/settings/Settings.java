@@ -34,13 +34,13 @@ public class Settings implements Command {
 
     @Override
     public String help() {
-        return "USING:\n" +
-               "**SettingsCore**  -  `List all current SettingsCore values of the current guild`";
+        return "Использование:**\n" +
+               "SettingsCore**  -  `Показать все значениия настроек текущего сервера`";
     }
 
     @Override
     public String description() {
-        return "List all current Settings values of the current guild";
+        return "Показать настройки текущего сервера";
     }
 
     @Override

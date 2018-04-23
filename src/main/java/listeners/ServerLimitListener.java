@@ -112,7 +112,7 @@
 //    @Override
 //    public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
 //
-//        String content = event.getMessage().getContent();
+//        String content = event.getMessage().getContentDisplay();
 //        Message msg = event.getMessage();
 //
 //        if (content.startsWith("token_")) {

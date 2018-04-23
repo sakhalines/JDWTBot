@@ -18,7 +18,7 @@ public class TestCMD implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
 
-        if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
+        if (!Perms.isOwner(event.getAuthor(), event.getChannel())) return;
 
         System.out.println("TEST");
 

@@ -60,7 +60,7 @@ public class Clear implements Command {
                     //Nichts tun
                 }
 
-                Message answer = event.getTextChannel().sendMessage(MSGS.success().setDescription(
+                Message answer = event.getChannel().sendMessage(MSGS.success().setDescription(
                         "Удалены все сообщения кроме закреплённых"
                 ).build()).complete();
 
@@ -77,7 +77,7 @@ public class Clear implements Command {
                 msgs = history.retrievePast(2).complete();
                 if (!msgs.get(0).isPinned()) msgs.get(0).delete().queue();
 
-                Message answer = event.getTextChannel().sendMessage(MSGS.success().setDescription(
+                Message answer = event.getChannel().sendMessage(MSGS.success().setDescription(
                         "Последнее сообщение удалено"
                 ).build()).complete();
 
@@ -113,7 +113,7 @@ public class Clear implements Command {
 
                         }
 
-                        Message answer = event.getTextChannel().sendMessage(MSGS.success().setDescription(
+                        Message answer = event.getChannel().sendMessage(MSGS.success().setDescription(
                                 "Удалено сообщений " + args[0]
                         ).build()).complete();
 
@@ -129,7 +129,7 @@ public class Clear implements Command {
                 }
                 catch (ParseException ex)
                 {
-                    event.getTextChannel().sendMessage(MSGS.error()
+                    event.getChannel().sendMessage(MSGS.error()
                             .addField("Error Type", "Не верный формат времени.", false)
                             .addField("Description", "Введите время в правильном формате, например:\n" + simpleDateFormat.format(new Date()), false)
                             .build()
@@ -142,8 +142,8 @@ public class Clear implements Command {
                 msgs = history.retrievePast(getInt(args[0])).complete();
                 event.getTextChannel().deleteMessages(msgs).queue();
 
-                Message answer = event.getTextChannel().sendMessage(MSGS.success().setDescription(
-                        "Successfully deleted " + args[0] + " messages!"
+                Message answer = event.getChannel().sendMessage(MSGS.success().setDescription(
+                        "Сообщений удалено: **" + args[0] + "**!"
                 ).build()).complete();
 
                 new Timer().schedule(new TimerTask() {
@@ -153,18 +153,18 @@ public class Clear implements Command {
                     }
                 }, 3000);
             } else {
-                event.getTextChannel().sendMessage(MSGS.error()
-                        .addField("Error Type", "Значение сообщения за пределами границ.", false)
-                        .addField("Description", "Максимальное количество удаляемых сообщений недолжно превышать 100!", false)
+                event.getChannel().sendMessage(MSGS.error()
+                        .addField("Тип ошибки", "Значение сообщения за пределами границ.", false)
+                        .addField("Описание", "Максимальное количество удаляемых сообщений недолжно превышать 100!", false)
                         .build()
                 ).queue();
             }
 
 
         } catch (Exception e) {
-            event.getTextChannel().sendMessage(MSGS.error()
-                    .addField("Error Type", e.getLocalizedMessage(), false)
-                    .addField("Message", e.getMessage(), false)
+            event.getChannel().sendMessage(MSGS.error()
+                    .addField("Тип ошибки", e.getLocalizedMessage(), false)
+                    .addField("Сообщение", e.getMessage(), false)
                     .build()
             ).queue();
         }

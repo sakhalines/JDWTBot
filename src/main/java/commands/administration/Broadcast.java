@@ -59,10 +59,10 @@ public class Broadcast implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
-        if (!Perms.isOwner(event.getAuthor(), event.getTextChannel())) return;
+        if (!Perms.isOwner(event.getAuthor(), event.getChannel())) return;
 
         if (args.length < 1) {
-            event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.red).setDescription(help()).build()).queue();
+            event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.red).setDescription(help()).build()).queue();
             return;
         }
 
@@ -80,7 +80,7 @@ public class Broadcast implements Command {
                 .filter(g -> !ignores.contains(g))
                 .forEach(g -> {
                     try {
-                        g.getPublicChannel().sendMessage(eb.build()).queue();
+                        g.getDefaultChannel().sendMessage(eb.build()).queue(); //getPublicChannel()
                     } catch (Exception e) { }
                 });
 

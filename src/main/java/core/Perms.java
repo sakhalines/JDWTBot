@@ -2,7 +2,7 @@ package core;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import utils.MSGS;
@@ -20,9 +20,9 @@ import java.util.Arrays;
 public class Perms {
 
 
-    public static boolean isOwner(User user, TextChannel channel) {
+    public static boolean isOwner(User user, MessageChannel channel) {
         if (STATICS.BOT_OWNER_ID == 0) {
-            channel.sendMessage(MSGS.error().setDescription("There is no owner ID set in `SETTINGS.txt`.\nIf you are the owner of this bot, please add your Discord user id in the `SETTINGS.txt`!").build()).queue();
+            channel.sendMessage(MSGS.error().setDescription("Не установлен ID владельца бота в файле `SETTINGS.txt`.\nЕсли вы являетесь владельцем бота, пожалуйста установите свой Discord ID в файле `SETTINGS.txt`!").build()).queue();
             return false;
         }
         if (user.getId().equals(String.valueOf(STATICS.BOT_OWNER_ID)))
@@ -46,8 +46,8 @@ public class Perms {
 
     public static boolean check(int required, MessageReceivedEvent event) {
         if (required > getLvl(event.getMember())) {
-            event.getTextChannel().sendMessage(new EmbedBuilder().setColor(Color.red).setDescription(
-                    "Sorry but you need permission level `" + required + "` or above!\n(Your current permission level is `" + getLvl(event.getMember()) + "`)."
+            event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.red).setDescription(
+                    "Извините, но вам необходим уровень полномочий `" + required + "` или выше!\n(Ваш текущий уровень полномочий `" + getLvl(event.getMember()) + "`)."
             ).build()).queue();
             return true;
         }
@@ -68,7 +68,7 @@ public class Perms {
     //            .addField("Error Type", "Missing permissions.", false)
     //            .addField("Description", "You need at least one of the following roles to access that command:\n" + sb.toString().substring(0, sb.toString().length() - 2), false);
     //
-    //    if (userNotPermitted) event.getTextChannel().sendMessage(eb.build()).queue();
+    //    if (userNotPermitted) event.getChannel().sendMessage(eb.build()).queue();
     //
     //    return userNotPermitted;
     //}

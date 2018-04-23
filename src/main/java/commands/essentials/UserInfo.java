@@ -80,7 +80,7 @@ public class UserInfo implements Command {
             em.setThumbnail(AVATAR);
         }
 
-        event.getTextChannel().sendMessage(
+        event.getChannel().sendMessage(
                 em.build()
         ).queue();
 

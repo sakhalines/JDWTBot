@@ -250,7 +250,7 @@ public class StatRequest {
             testVar = testVar.substring(0,500);
 
         resultA ="\n\n**:small_blue_diamond:" + playerName + ":small_blue_diamond: " + preferMode + "\n" + lastUpdate + "\n" + comparsion + "**" +
-                "\n:regional_indicator_a:**Аркадные бои" +
+                "--\n:regional_indicator_a:**Аркадные бои" +
                 "\n" + preferAirOrGroundBattlesA +
                 "\n**Ранг: **" + rankA +
                 "\n**КПД: **" + kpdA +

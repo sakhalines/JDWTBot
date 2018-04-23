@@ -1,6 +1,6 @@
 package listeners;
 
-import commands.thunderTools.ChlogMonitoring;
+import commands.thunderTools.Monitoring;
 import core.StartArgumentHandler;
 import core.UpdateClient;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -13,6 +13,7 @@ import utils.Logger;
 import utils.STATICS;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -133,12 +134,35 @@ public class ReadyListener extends ListenerAdapter {
 
         if (!STATICS.gameChangelogUpdateInterval.equalsIgnoreCase("OFF")){
             int intervalParse = Integer.parseInt(STATICS.gameChangelogUpdateInterval);
+
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    ChlogMonitoring.updateGameChangelogChannel(event.getJDA());
+                    try {
+                        Monitoring.updateGameContentMonitoringChannel(event.getJDA(), "gameChangelog");
+                    }catch (Exception e) {
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                        System.out.println(simpleDateFormat.format(new Date()) + " | Ошибка проверки обновлений игры!\n\n");
+                        e.printStackTrace();
+                    }
                 }
-            }, 0, intervalParse * 60000);
+            }, 10000, intervalParse * 2000);
+        }
+
+        if (!STATICS.gameNewsUpdateInterval.equalsIgnoreCase("OFF")){
+            int intervalParse = Integer.parseInt(STATICS.gameNewsUpdateInterval);
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        Monitoring.updateGameContentMonitoringChannel(event.getJDA(), "gameNews");
+                    } catch (Exception e) {
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                        System.out.println(simpleDateFormat.format(new Date()) + " | Ошибка проверки обновлений новостей игры!\n\n");
+                        e.printStackTrace();
+                    }
+                }
+            }, 20000, intervalParse * 2000);
         }
 
         commands.chat.Counter.loadAll(event.getJDA());

@@ -28,16 +28,24 @@ public class BotListener extends ListenerAdapter{
 
         if (!logFile.exists())
             logFile.createNewFile();
+        if (!e.getChannelType().equals(ChannelType.PRIVATE)) {
+            bw.write(String.format("%s [%s (%s)] [%s (%s)] '%s'\n",
+                    CoreCommands.getCurrentSystemTime(),
+                    e.getGuild().getName(),
+                    e.getGuild().getId(),
+                    e.getAuthor().getName(),
+                    e.getAuthor().getId(),
+                    e.getMessage().getContentDisplay()));
 
-        bw.write(String.format("%s [%s (%s)] [%s (%s)] '%s'\n",
-                CoreCommands.getCurrentSystemTime(),
-                e.getGuild().getName(),
-                e.getGuild().getId(),
-                e.getAuthor().getName(),
-                e.getAuthor().getId(),
-                e.getMessage().getContent()));
+        }
+        else{
+            bw.write(String.format("%s [%s (%s)] '%s'\n",
+                    CoreCommands.getCurrentSystemTime(),
+                    e.getAuthor().getName(),
+                    e.getAuthor().getId(),
+                    e.getMessage().getContentDisplay()));
+        }
         bw.close();
-
     }
 
 
@@ -46,20 +54,25 @@ public class BotListener extends ListenerAdapter{
 
         BotStats.messagesProcessed++;
 
-        if (e.getChannelType().equals(ChannelType.PRIVATE)) return;
+        //if (e.getChannelType().equals(ChannelType.PRIVATE)) return;
 
-        if (e.getMessage().getContent().startsWith(SSSS.getPREFIX(e.getGuild())) && e.getMessage().getAuthor().getId() != e.getJDA().getSelfUser().getId()) {
+        if (e.getMessage().getContentDisplay().startsWith(SSSS.getPREFIX(e.getGuild())) && e.getMessage().getAuthor().getId() != e.getJDA().getSelfUser().getId()) {
             Ping.setInputTime(new Date().getTime());
             if (!commands.guildAdministration.Blacklist.check(e.getAuthor(), e.getGuild())) return;
             try {
-                Main.handleCommand(Main.parser.parse(e.getMessage().getContent(), e));
-                if (STATICS.commandConsoleOutout)
-                    System.out.println(CoreCommands.getCurrentSystemTime() + " [Info] [Commands]: Command '" + e.getMessage().getContent() + "' was executed by '" + e.getAuthor() + "' (" + e.getGuild().getName() + ")!");
+                Main.handleCommand(Main.parser.parse(e.getMessage().getContentDisplay(), e));
                 ArrayList<String> list = new ArrayList<>();
-                list.add(e.getGuild().getId());
-                list.add(CoreCommands.getCurrentSystemTime());
-                list.add(e.getMember().getEffectiveName());
-                list.add(e.getMessage().getContent());
+                if (STATICS.commandConsoleOutout) {
+                    list.add(CoreCommands.getCurrentSystemTime());
+                    if (e.getChannelType().equals(ChannelType.PRIVATE))
+                        System.out.println(CoreCommands.getCurrentSystemTime() + " [Info] [Commands]: Command '" + e.getMessage().getContentDisplay() + "' was executed by '" + e.getAuthor() + ")!");
+                    else{
+                        System.out.println(CoreCommands.getCurrentSystemTime() + " [Info] [Commands]: Command '" + e.getMessage().getContentDisplay() + "' was executed by '" + e.getAuthor() + "' (" + e.getGuild().getName() + ")!");
+                        list.add(e.getGuild().getId());
+                        list.add(e.getMember().getEffectiveName());
+                    }
+                }
+                list.add(e.getMessage().getContentDisplay());
                 STATICS.cmdLog.add(list);
                 addToLogfile(e);
             } catch (ParseException e1) {

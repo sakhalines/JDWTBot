@@ -33,12 +33,12 @@ public class Speedtest implements Command {
         SpeedTestSocket Uspeed = new SpeedTestSocket();
         StringBuilder sb = new StringBuilder();
 
-        Message msg = event.getTextChannel().sendMessage(new EmbedBuilder().setDescription("**Speed test running...**\n\nTesting downstream with 10MB file...").build()).complete();
+        Message msg = event.getChannel().sendMessage(new EmbedBuilder().setDescription("**Speed test running...**\n\nTesting downstream with 10MB file...").build()).complete();
 
         Dspeed.addSpeedTestListener(new ISpeedTestListener() {
             @Override
             public void onCompletion(SpeedTestReport report) {
-                sb.append("Downstream:  " + (report.getTransferRateBit().floatValue() / 1024 / 1024) + " MBit/s\n");
+                sb.append("Загрузка:  " + (report.getTransferRateBit().floatValue() / 1024 / 1024) + " MBit/s\n");
                 msg.editMessage(new EmbedBuilder().setDescription("**Speed test running...**\n\nTesting upstream with 1MB file...").build()).queue();
                 Uspeed.startUpload("http://2.testdebit.info/", 1000000);
             }
@@ -57,8 +57,8 @@ public class Speedtest implements Command {
         Uspeed.addSpeedTestListener(new ISpeedTestListener() {
             @Override
             public void onCompletion(SpeedTestReport report) {
-                sb.append("Upstream:    " + (report.getTransferRateBit().floatValue() / 1024 / 1024) + " MBit/s");
-                msg.editMessage(new EmbedBuilder().setDescription("**Speed test finished.**\n\n```" + sb.toString() + "```").build()).queue();
+                sb.append("Передача:    " + (report.getTransferRateBit().floatValue() / 1024 / 1024) + " MBit/s");
+                msg.editMessage(new EmbedBuilder().setDescription("**Тест скорости выполнен.**\n\n```" + sb.toString() + "```").build()).queue();
             }
 
             @Override
@@ -86,12 +86,12 @@ public class Speedtest implements Command {
     @Override
     public String help() {
         return "Использование:\n" +
-                "**speed**  -  `Execute a speed test.`";
+                "**speed**  -  `Выполнить тест скорости.`";
     }
 
     @Override
     public String description() {
-        return "Tests the current connection speed of the bot.";
+        return "Тест текущей скорости подключения бота.";
     }
 
     @Override

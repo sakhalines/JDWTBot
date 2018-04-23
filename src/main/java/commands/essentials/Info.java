@@ -26,7 +26,7 @@ public class Info implements Command {
             e.printStackTrace();
         }
 
-        event.getTextChannel().sendMessage(
+        event.getChannel().sendMessage(
                 new EmbedBuilder()
                         .setColor(Color.MAGENTA)
 //                        .setThumbnail("https://raw.githubusercontent.com/zekroTJA/DiscordBot/master/.websrc/zekroBot%20Logo%20-%20round.png")
@@ -53,7 +53,7 @@ public class Info implements Command {
 
     @Override
     public String help() {
-        return "Использование: -info";
+        return "Использование: " + STATICS.PREFIX + "info";
     }
 
     @Override

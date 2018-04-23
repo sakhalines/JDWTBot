@@ -47,7 +47,7 @@ public class CmdLog implements Command {
                             "`" + s.get(1) + "`  **[" + s.get(2) + "]**  \"" + s.get(3) + "\"\n"
                     ));
 
-            event.getTextChannel().sendMessage(
+            event.getChannel().sendMessage(
                     "**Last 50 Commands:**\n\n" + saveCut(sb.toString())
             ).queue();
 
@@ -65,7 +65,7 @@ public class CmdLog implements Command {
                             "`" + s.get(1) + "`  **[" + s.get(2) + "]**  \"" + s.get(3) + "\"\n"
                     ));
 
-            event.getTextChannel().sendMessage(
+            event.getChannel().sendMessage(
                     "**Last 50 Commands (all guilds):** \n\n" + saveCut(sb.toString())
             ).queue();
         }
@@ -80,13 +80,13 @@ public class CmdLog implements Command {
     @Override
     public String help() {
         return  "Использование:\n" +
-                "**cmdlog**  -  `Show the last 50 commands executed on the guild`\n" +
-                "**cmdlog all**  -  `Show the last 50 commands executed on every guild`";
+                "**cmdlog**  -  `Показать 50 последних исполненных на текущем сервере команд`\n" +
+                "**cmdlog all**  -  `Показать 50 последних исполненных на всех серверах где запущен бот, команд `";
     }
 
     @Override
     public String description() {
-        return "Show the last 50 commands executed on the guild / on all guilds.";
+        return "Показать 50 последних исполненных на текущем или на всех серверах, где запущен бот, команд.";
     }
 
     @Override

@@ -33,7 +33,7 @@ public class Bug implements Command {
 
 
     public static void sendConfMessage() {
-        MESSAGE.getTextChannel().sendMessage(MSGS.success().setDescription("Submit sucesfully send!").build()).queue();
+        MESSAGE.getChannel().sendMessage(MSGS.success().setDescription("Submit sucesfully send!").build()).queue();
     }
 
 
@@ -52,12 +52,12 @@ public class Bug implements Command {
         } catch (Exception e) {
 
             if (args.length < 1) {
-                event.getTextChannel().sendMessage(new EmbedBuilder().setDescription(
+                event.getChannel().sendMessage(new EmbedBuilder().setDescription(
                         "If you want to submit a bug or a suggestion, please use the public **[google sheet](https://s.zekro.de/botsubs)**."
                 ).build()).queue();
                 return;
             }
-            event.getTextChannel().sendMessage(MSGS.error().setDescription(
+            event.getChannel().sendMessage(MSGS.error().setDescription(
                     "Sorry, the expandet version of this command is only available on the public version of the bot!\n\n" +
                     "If you want to submit a bug or a suggestion, please use the public **[google sheet](https://s.zekro.de/botsubs)**."
             ).build()).queue();
@@ -65,7 +65,7 @@ public class Bug implements Command {
         }
 
         if (args.length < 1)
-            event.getTextChannel().sendMessage(new EmbedBuilder().setDescription(
+            event.getChannel().sendMessage(new EmbedBuilder().setDescription(
                     "You can submit a bug report or suggestion right with the command using like this:\n" +
                     "```-bug <сообщение>```\n\n" +
                     "You can use following modifiers to embed better details:\n" +
@@ -86,7 +86,7 @@ public class Bug implements Command {
             type = argsString.split("\n").length > 3 ? argsString.split("\n")[1] : type;
             message = argsString.split("\n").length > 3 ? Arrays.stream(argsString.split("\n")).skip(2).collect(Collectors.joining("\n")) : argsString;
 
-            MESSAGE = event.getTextChannel().sendMessage(new EmbedBuilder()
+            MESSAGE = event.getChannel().sendMessage(new EmbedBuilder()
                     .setTitle("MESSAGE PREVIEW", null)
                     .addField("Title", title, true)
                     .addField("Type", type, true)
@@ -113,7 +113,7 @@ public class Bug implements Command {
                     FINAL_MESSAGE = null;
                     CHANNEL = null;
                     TIMER = null;
-                    event.getTextChannel().sendMessage(new EmbedBuilder().setDescription("Confirmation time expired.").build()).queue();
+                    event.getChannel().sendMessage(new EmbedBuilder().setDescription("Confirmation time expired.").build()).queue();
                 }
             }, 20000);
 
@@ -134,7 +134,7 @@ public class Bug implements Command {
 
     @Override
     public String description() {
-        return "Send a bug report or a suggestion";
+        return "Отослать багрепорт или предложение";
     }
 
     @Override

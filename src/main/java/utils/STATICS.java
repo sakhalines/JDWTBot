@@ -27,7 +27,7 @@ public class STATICS {
 
     public static OnlineStatus STATUS = OnlineStatus.ONLINE;
 
-    public static String CUSTOM_MESSAGE = " | .help для справки";
+    public static String CUSTOM_MESSAGE = " \".help\" для справки";
 
     public static Game GAME = new Game("")  {
         public String getName() {
@@ -37,7 +37,7 @@ public class STATICS {
             return "http://zekro.de";
         }
         public GameType getType() {
-            return GameType.DEFAULT;
+            return GameType.LISTENING;
         }
     };
 
@@ -63,7 +63,11 @@ public class STATICS {
 
     public static String gameChangelogChannelPrefix = "game_changelog_";
 
+    public static String gameNewsChannelPrefix = "game_news_";
+
     public static String gameChangelogUpdateInterval = "OFF";
+
+    public static String gameNewsUpdateInterval = "OFF";
 
     public static boolean commandConsoleOutout = true;
 

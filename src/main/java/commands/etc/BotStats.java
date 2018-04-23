@@ -89,7 +89,7 @@ public class BotStats implements Command {
 
         event.getJDA().getGuilds().forEach(g -> g.getMembers().forEach(m -> countUpMembers()));
 
-        event.getTextChannel().sendMessage(
+        event.getChannel().sendMessage(
                 new EmbedBuilder()
                 .setColor(Color.cyan)
                 .setDescription(
@@ -120,7 +120,7 @@ public class BotStats implements Command {
 
     @Override
     public String description() {
-        return "Displays stats of the bot.";
+        return "Отображение статистики бота.";
     }
 
     @Override

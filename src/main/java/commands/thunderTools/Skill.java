@@ -18,161 +18,129 @@ public class Skill implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
-//        String[] args = msg.split(" ");
-//        for(int j = 0; j < args.length; j++) {
-//            System.out.println("in action" + args[j]);
-//        }
+        if (args.length == 0 || args.length > 6) {
+            try {
+                event.getChannel().sendMessage(CommonClass.sendHelpCommands("wrongPlayerName")).queue();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
         Boolean arcade = false,
                 real = false,
                 simul = false,
                 updateStat = false,
-                sendAsChannelMsg = false,
-                sendAsChannelDescription;
+                sendAsChannelMsg = false;
 
-        for (int i = 0; i <= args.length - 1; i++){
-            switch (args[i]){
-                case "a": arcade = true; break;
-                case "r": real = true; break;
-                case "s": simul = true; break;
-                case "u": updateStat = true; break;
-                case "c": sendAsChannelMsg = true; break;
+        //if (StringUtils.isNotBlank(args[0])){
+
+        if (args.length >= 2) {
+            // если параметры не разделены пробелом
+            if (args[0].length() > 1) {
+                for (int i = 0; i <= args[0].length() - 1; i++) {
+                    switch (args[0].toCharArray()[i]) {
+                        case 'a': arcade = true; break;
+                        case 'r': real = true; break;
+                        case 's': simul = true; break;
+                        case 'u': updateStat = true; break;
+                        case 'c': sendAsChannelMsg = true; break;
+                    }
+                }
+            }
+            // если параметры разделены пробелом
+            else {
+                for (int i = 0; i <= args.length - 1; i++) {
+                    switch (args[i]) {
+                        case "a": arcade = true; break;
+                        case "r": real = true; break;
+                        case "s": simul = true; break;
+                        case "u": updateStat = true; break;
+                        case "c": sendAsChannelMsg = true; break;
+                    }
+                }
             }
         }
-//        String msg = String.join(",", args);
-//            boolean arcade = msg.contains("-a"),
-//                    real = msg.contains("-r"),
-//                    simul = msg.contains("-s"),
-//                    sendAsChannelMsg = msg.contains("-c"),
-//                    sendAsChannelDescription = msg.contains("-C"),
-//                    help = msg.contains("-h"),
-//                    updateStat = msg.contains("-u");
+        //}
+        // берем последний элемент, который должен содержать имя игрока
+        String playerName = args[args.length - 1];
 
-            if (args.length != 0) {
-                // берем последний элемент, который должен содержать имя игрока
-                String playerName = args[args.length - 1];
-
-                if (updateStat)
-                    try {
-                        CommonClass.sendPostRequest(playerName);
-                        PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
-                        pc.sendMessage("Статистика игрока ** " + playerName + " ** обновлена");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                String[] stat = null;
-
-                stat = StatRequest.getStatForPlayerHtml(playerName);
-
-//  ВНИМАНИЕ выход из функции, если статистика пуста
-                if (!String.join(",", stat).contains("Последнее обновление")){
-                    event.getTextChannel().sendMessage(":warning: Игрок " + playerName + " не найден.").queue();
-                    return;
-                }
-
+        if (updateStat) {
+            try {
+                CommonClass.sendPostRequest(playerName);
                 EmbedBuilder eb = new EmbedBuilder();
-                eb.setColor(Color.yellow);
-                eb.setTitle("Запрос статистики от **" + event.getAuthor().getName()+ "**");
-                //eb.setImage("http://thunderskill.com/userbars/s/a/" + playerName + "/ru-1-combined-r.png");
-                eb.setThumbnail("https://vignette.wikia.nocookie.net/warthunder/images/a/a3/WarThunder_icon.png/revision/latest?cb=20121222231347");
-                //event.getTextChannel().sendMessage(eb.build()).queue();
+                //if (sendAsChannelMsg) { //послать ответ в текущий канал
+                    eb.setDescription("Статистика игрока ** " + playerName + " ** обновлена");
+                    event.getChannel().sendMessage(eb.build()).queue();
+                //}
+                //else {
+                //    PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
+                //    pc.sendMessage("Статистика игрока ** " + playerName + " ** обновлена");
+                //}
+            } catch (IOException e) { e.printStackTrace(); }
+        }
+        String[] stat = null;
+        stat = StatRequest.getStatForPlayerHtml(playerName);
 
-                if (arcade || real || simul) { // если указан режим игры
-                    if (arcade) {
-//                        String statConacatinaed;
-                        if (sendAsChannelMsg) {  //послать ответ в текущий канал
-                            eb.setDescription(stat[0]);
-                            event.getTextChannel().sendMessage(eb.build()).queue();
-                        }
-//                        else if (sendAsChannelDescription) {  //послать ответ как описание канала TREFoBOT
-//                            queryLib.doCommand("channeledit cid=" + botHomeChannel + " channel_description=" +
-//                                    queryLib.encodeTS3String(stat[0]).queue());
-//                        }
-                        else {    //послать ответ в личку
-                            try {
-                                PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
-                                pc.sendMessage(stat[0]).queue();
-                            }
-                            catch (Exception e) {
-                                e.printStackTrace();
-                            }
+        //  ВНИМАНИЕ выход из функции, если статистика пуста
+        if (!String.join(",", stat).contains("Последнее обновление")){
+            event.getChannel().sendMessage(":warning: Игрок " + playerName + " не найден.").queue();
+            return;
+        }
 
-                        }
-                    }else if (real) {
-                        if (sendAsChannelMsg) {
-                            try {
-                                eb.setDescription(stat[1]);
-                                event.getTextChannel().sendMessage(eb.build()).queue();
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setColor(Color.yellow);
+        eb.setTitle("Запрос статистики от **" + event.getAuthor().getName()+ "**");
+        //eb.setImage("http://thunderskill.com/userbars/s/a/" + playerName + "/ru-1-combined-r.png");
+        eb.setThumbnail("https://vignette.wikia.nocookie.net/warthunder/images/a/a3/WarThunder_icon.png/revision/latest?cb=20121222231347");
 
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-//                        else if (sendAsChannelDescription) {
-//                            queryLib.doCommand("channeledit cid=" + botHomeChannel + " channel_description=" +
-//                                    queryLib.encodeTS3String(stat[1]));
-//                        }
-                        else {    //послать ответ в личку
-                            PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
-                            pc.sendMessage(stat[1]).queue();
-                        }
-                    } else if (simul) {
-                        if (sendAsChannelMsg) {
-                            try {
-                                eb.setDescription(stat[2]);
-                                event.getTextChannel().sendMessage(eb.build()).queue();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-//                        else if (sendAsChannelDescription) {
-//                            queryLib.doCommand("channeledit cid=" + botHomeChannel + " channel_description=" +
-//                                    queryLib.encodeTS3String(stat[2]));
-//                        }
-                        else {    //послать ответ в личку
-                            PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
-                            pc.sendMessage(stat[2]).queue();
-                        }
-                    }
-                } else { // если НЕ указан режим игры
-                    if (sendAsChannelMsg) {  //послать ответ в текущий канал
-                        try {
-                            eb.setDescription(stat[0] +
-                                    stat[1].split("--")[1] +
-                                    stat[2].split("--")[1]
-                            );
-
-                            event.getTextChannel().sendMessage(eb.build()).queue();
-                            //event.getTextChannel().sendMessage(stat[1].split("--")[1]).queue();// срезка -- необходима чтобы был заголовок когда указан режим, а без режима заголовок только в начале
-                            //event.getTextChannel().sendMessage(stat[2].split("--")[1]).queue();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-//                    else if (sendAsChannelDescription) {  //послать ответ как описание канала TREFoBOT
-//                        queryLib.doCommand("channeledit cid=" + botHomeChannel + " channel_description=" +
-//                                queryLib.encodeTS3String(stat[0] + stat[1].split("--")[1] + stat[2].split("--")[1]));
-//                    }
-                    else {    //послать ответ в личку
-                        PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
-                        pc.sendMessage(stat[0]).queue();
-                        pc.sendMessage(stat[1].split("--")[1]).queue();
-                        pc.sendMessage(stat[2].split("--")[1]).queue();
-                    }
-                }
-
-            } else {
-//                if (sendAsChannelMsg) {  //послать ответ в текущий канал
-                    try {
-                        event.getTextChannel().sendMessage(CommonClass.sendHelpCommands("")).queue();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-//                }
-//                else {    //послать ответ в личку
-//                    PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
-//                    pc.sendMessage(CommonClass.sendHelpCommands("")).queue();
-//                }
+        if (arcade || real || simul) {  // если указан режим игры
+            String titleStat = "", arcadeStat = "", realStat = "", simulStat = "";
+            titleStat = stat[0].split("--")[0];
+            if (arcade) {
+                arcadeStat = stat[0].split("--")[1];
             }
+            if (real) {
+                realStat = stat[1].split("--")[1];
+            }
+            if (simul) {
+                simulStat = stat[2].split("--")[1];
+            }
+            if (sendAsChannelMsg) {
+                try {
+                    eb.setDescription(titleStat + arcadeStat + realStat + simulStat);
+                    event.getChannel().sendMessage(eb.build()).queue();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
+                pc.sendMessage(titleStat + arcadeStat + realStat + simulStat).queue();
+            }
+        }
+        else { // если не указан режим игры
+            if (sendAsChannelMsg) { //послать ответ в текущий канал
+                try {
+                    eb.setDescription(stat[0] +
+                            stat[1].split("--")[1] +
+                            stat[2].split("--")[1]
+                    );
+
+                    event.getChannel().sendMessage(eb.build()).queue();
+                    //event.getChannel().sendMessage(stat[1].split("--")[1]).queue();// срезка -- необходима чтобы был заголовок когда указан режим, а без режима заголовок только в начале
+                    //event.getChannel().sendMessage(stat[2].split("--")[1]).queue();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else { //послать ответ в личку
+                PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
+                pc.sendMessage(stat[0]).queue();
+                pc.sendMessage(stat[1].split("--")[1]).queue();
+                pc.sendMessage(stat[2].split("--")[1]).queue();
+            }
+        }
     }
 
     @Override

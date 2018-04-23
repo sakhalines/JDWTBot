@@ -48,7 +48,7 @@ public class SSSS /* Stands for "SERVER SPECIFIC SETTINGS SYSTEM" :^) */ {
 //            }
 //        });
 //
-//        event.getTextChannel().sendMessage(new EmbedBuilder()
+//        event.getChannel().sendMessage(new EmbedBuilder()
 //                .setTitle("SettingsCore for guild \"" + g.getName() + "\" (" + g.getId() + ")", null)
 //                .addBlankField(false)
 //                .addField("Keys", keys.toString(), true)
@@ -70,6 +70,8 @@ public class SSSS /* Stands for "SERVER SPECIFIC SETTINGS SYSTEM" :^) */ {
         
         sets.put("GAME_CHANGELOG_CHANNEL_PREFIX     ", getGAMECHANGELOGCHANNELPREFIX(g));
         sets.put("GAME_CHANGELOG_UPDATE_INTERVAL    ", getGAMECHANGELOGUPDATEINTERVAL(g));
+        sets.put("GAME_NEWS_CHANNEL_PREFIX     ", getGAMENEWSCHANNELPREFIX(g));
+        sets.put("GAME_NEWS_UPDATE_INTERVAL    ", getGAMENEWSUPDATEINTERVAL(g));
 
         HashMap<String, String> setsMulti = new HashMap<>();
         setsMulti.put("PERMROLES_LVL1", String.join(", ", getPERMROLES_1(g)));
@@ -91,7 +93,7 @@ public class SSSS /* Stands for "SERVER SPECIFIC SETTINGS SYSTEM" :^) */ {
                 String.format("%s:\n\"%s\"\n\n", k, v))
         );
 
-        event.getTextChannel().sendMessage(new EmbedBuilder().setDescription(sb.append("```").toString()).build()).queue();
+        event.getChannel().sendMessage(new EmbedBuilder().setDescription(sb.append("```").toString()).build()).queue();
     }
 
 
@@ -321,6 +323,48 @@ public class SSSS /* Stands for "SERVER SPECIFIC SETTINGS SYSTEM" :^) */ {
         settingWrite(entry, f);
     }
 
+    public static String getGAMENEWSCHANNELPREFIX(Guild guild) {
+
+        try {
+            File f = new File("SERVER_SETTINGS/" + guild.getId() + "/gamenewschannel");
+            if (f.exists()) {
+                try {
+                    return new BufferedReader(new FileReader(f)).readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {}
+        return STATICS.gameNewsChannelPrefix;
+    }
+
+    public static void setGAMENEWSCHANNELPREFIX(String entry, Guild guild) {
+
+        File f = new File("SERVER_SETTINGS/" + guild.getId() + "/gamenewschannel");
+        settingWrite(entry, f);
+    }
+
+    public static String getGAMENEWSUPDATEINTERVAL(Guild guild) {
+
+        try {
+            File f = new File("SERVER_SETTINGS/" + guild.getId() + "/gamenewsupdateinterval");
+            if (f.exists()) {
+                try {
+                    return new BufferedReader(new FileReader(f)).readLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {}
+        return STATICS.gameNewsUpdateInterval;
+    }
+
+    public static void setGAMENEWSUPDATEINTERVAL(String entry, Guild guild) {
+
+        File f = new File("SERVER_SETTINGS/" + guild.getId() + "/gamenewsupdateinterval");
+        settingWrite(entry, f);
+    }
+
     private static void settingWrite(String entry, File f){
         try {
             if (!f.exists())
@@ -332,4 +376,5 @@ public class SSSS /* Stands for "SERVER SPECIFIC SETTINGS SYSTEM" :^) */ {
             e.printStackTrace();
         }
     }
+
 }

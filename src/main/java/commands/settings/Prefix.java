@@ -28,12 +28,12 @@ public class Prefix implements Command {
         if (core.Perms.check(permission(), event)) return;
 
         if (args.length < 1) {
-            event.getTextChannel().sendMessage(MSGS.error().setDescription(":warning: Please enter a valid prefix!").build()).queue();
+            event.getChannel().sendMessage(MSGS.error().setDescription(":warning: Please enter a valid prefix!").build()).queue();
             return;
         }
 
         SSSS.setPREFIX(args[0], event.getGuild());
-        event.getTextChannel().sendMessage(MSGS.success().setDescription("Prefix successfully changed to `" + args[0] + "`.").build()).queue();
+        event.getChannel().sendMessage(MSGS.success().setDescription("Prefix successfully changed to `" + args[0] + "`.").build()).queue();
     }
 
     @Override
@@ -43,12 +43,12 @@ public class Prefix implements Command {
 
     @Override
     public String help() {
-        return "Использование: -prefix <new prefix>";
+        return "Использование: " + STATICS.PREFIX + "prefix <new prefix>";
     }
 
     @Override
     public String description() {
-        return "Set the command prefix for this server";
+        return "Установка префикса для команд бота";
     }
 
     @Override

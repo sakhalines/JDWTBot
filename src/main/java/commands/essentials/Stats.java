@@ -96,7 +96,7 @@ public class Stats implements Command {
         if (!gs.avatar.equals("not set"))
             eb.setThumbnail(gs.avatar);
 
-        event.getTextChannel().sendMessage(eb.build()).queue();
+        event.getChannel().sendMessage(eb.build()).queue();
     }
 
     @Override
