@@ -58,7 +58,7 @@ screen также нужен для корректного ручного пер
 
 Стабильная версия&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Версия в разработке.
 
-[![Github Releases (by Release)](https://img.shields.io/github/downloads/atom/atom/v1.0.3/total.svg?style=plastic)](https://github.com/sakhalines/JDWTBot/releases/latest) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Github Releases (by Release)](https://img.shields.io/github/downloads/atom/atom/v1.0.4/total.svg?style=plastic)](https://github.com/sakhalines/JDWTBot/releases/pre-release) 
+[![Github Releases (by Release)](https://img.shields.io/github/downloads/atom/atom/v1.0.3/total.svg?style=plastic)](https://github.com/sakhalines/JDWTBot/releases/latest) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Github Releases (by Release)](https://img.shields.io/github/downloads/atom/atom/v1.0.4/total.svg?style=plastic)](https://github.com/sakhalines/JDWTBot/releases/pre-release) 
 
 **Выражаю свою благодарность [zekroTJA](https://github.com/zekroTJA)** 
 
