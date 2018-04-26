@@ -103,7 +103,7 @@ public class ReadyListener extends ListenerAdapter {
                 "| Running on %s guilds: \n" +
                 "%s" +
                 "#------------------------------------------------------------------------- - - -  -  -  -   -\n\n",
-        Logger.Cyan + Logger.Bold + "JDWTBot" + Logger.Reset, STATICS.VERSION, "3.2.0_242", event.getJDA().getGuilds().size(), sb.toString()));
+        Logger.Cyan + Logger.Bold + "JDWTBot" + Logger.Reset, STATICS.VERSION, "3.6.0_356", event.getJDA().getGuilds().size(), sb.toString()));
 
         if (STATICS.BOT_OWNER_ID == 0) {
             Logger.ERROR(
@@ -146,7 +146,7 @@ public class ReadyListener extends ListenerAdapter {
                         e.printStackTrace();
                     }
                 }
-            }, 10000, intervalParse * 2000);
+            }, 10000, intervalParse * 6000);
         }
 
         if (!STATICS.gameNewsUpdateInterval.equalsIgnoreCase("OFF")){
@@ -162,7 +162,7 @@ public class ReadyListener extends ListenerAdapter {
                         e.printStackTrace();
                     }
                 }
-            }, 20000, intervalParse * 2000);
+            }, 20000, intervalParse * 6000);
         }
 
         commands.chat.Counter.loadAll(event.getJDA());

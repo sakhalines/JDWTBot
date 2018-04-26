@@ -13,7 +13,7 @@ public class Say implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
 
-        if (core.Perms.check(1, event)) return;
+        if (core.Perms.check(permission(), event)) return;
 
         String serverID = event.getGuild().getId();
         String channel = event.getTextChannel().getName();

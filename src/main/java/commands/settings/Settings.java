@@ -23,7 +23,7 @@ public class Settings implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
-        if (core.Perms.check(1, event)) return;
+        if (core.Perms.check(permission(), event)) return;
         core.SSSS.listSettings(event);
     }
 

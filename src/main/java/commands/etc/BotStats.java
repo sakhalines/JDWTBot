@@ -93,13 +93,13 @@ public class BotStats implements Command {
                 new EmbedBuilder()
                 .setColor(Color.cyan)
                 .setDescription(
-                        "**zekroBot STATS**\n\n" +
+                        "** Статистика JDWTBot**\n\n" +
                         "```\n" +
-                        "Registered commands:  " + commandsSize + "\n" +
-                        "Running on servers:   " + serversRunning + " / " + STATICS.SERVER_LIMIT + "\n" +
-                        "Deserving members:    " + membersDeserving + "\n" +
-                        "Messages processed:   " + messagesProcessed + "\n" +
-                        "Commands executed:    " + commandsExecuted + "\n" +
+                        "Зарегистрировано команд:  " + commandsSize + "\n" +
+                        "Запущена на серверах:   " + serversRunning + " / " + STATICS.SERVER_LIMIT + "\n" +
+                        "Зарегистриовано пользователей:    " + membersDeserving + "\n" +
+                        "Обработано сообщений:   " + messagesProcessed + "\n" +
+                        "Выполнено команд:    " + commandsExecuted + "\n" +
                         "```"
                 ).build()
         ).queue();

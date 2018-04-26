@@ -45,7 +45,7 @@ public class Clear implements Command {
 
     public void action(String[] args, MessageReceivedEvent event) {
 
-        if (core.Perms.check(1, event)) return;
+        if (core.Perms.check(permission(), event)) return;
 
         try {
             MessageHistory history = new MessageHistory(event.getTextChannel());
