@@ -10,6 +10,8 @@ import org.jsoup.select.Elements;
 
 import java.awt.*;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,12 +19,12 @@ import java.util.regex.Pattern;
  * Created by sakhalines on 11.07.2017.
  */
 public class GetAndSendContent {
-    private static String gameChangelogURL = "https://warthunder.ru/game/changelog/";
-    private static String gameNewsURL = "https://warthunder.ru/news/";
-    private static String URL = "";
-    static String dateContentLastUpdate, dateNews;
+    private static String
+            gameChangelogURL = "https://warthunder.ru/game/changelog/",
+            gameNewsURL = "https://warthunder.ru/news/",
+            URL, dateNews;
+    static String dateContentLastUpdate;
     static String getFullContent(int newsNumber, String contentType) {
-        dateContentLastUpdate = null;
         dateNews = null;
         String urlFullNews = "";
         String result = "";
@@ -59,24 +61,87 @@ public class GetAndSendContent {
                 Elements div = doc.select("div.news-item");
                 switch (contentType) {
                     case "gameChangelog":
-                        dateContentLastUpdate = div.select("span.date").first().text();
-                        String title = div.select("div.news-item > h1").first().text();
+                        dateNews = div.select("span.date").first().text();
+                        String title = div.select("div.news-item > h1").first().text(),
+                                title2 = "",
+                                title3 = "";
                         Elements uls = div.select("div.g-col > ul");
                         Elements lis = uls.select("li");
-                        result += ":small_blue_diamond: **" + dateContentLastUpdate + " | " + title +"**\n";
+                        result += ":small_blue_diamond: **" + dateNews + " | " + title +"**\n";
                         for (Element li : lis){
-                            result += ":white_small_square: " + li.select("li").text() + "\n";
+                            result += ":white_small_square: " + li.text() + "\n";
                         }
                         break;
                     case "gameNews":
-                        dateContentLastUpdate = div.select("span.newsheadline__newsDate").first().text();
-                        title = div.select("div.news-item.contentarea > h1").first().text();
+                        dateNews = div.select("span.newsheadline__newsDate").first().text();
+                        Element contentarea = div.select("div.news-item.contentarea").first();
+                        Elements g_cols = contentarea.select("div.g-col"),
+                        elemsH2 = null, elemsH3 = null, elemsP;
+                        title = contentarea.select("h1").first().text();
+                        result += ":small_blue_diamond: **" + dateNews + " | " + title +"**\n\n";
+
+                        Elements elemsVideoLink = g_cols.select("iframe[src*=youtube.com]");
+                        for (Element elemVideoLink : elemsVideoLink){
+                            result += elemVideoLink.attr("src").replace("www.youtube.com/embed", "youtu.be").replace("?rel=0&showinfo=0", "") +"\n\n";
+                        }
+
+//                        for (Element g_col : g_cols){
+//                            if (!g_col.select("h2").isEmpty()) {
+//                                int iter = 0;
+//                                elemsH2 = g_col.select("h2");
+//                                for (Element elemH2 : elemsH2){
+//                                    result += ":grey_question: **" + elemH2.text() + "**\n";
+//                                    Elements elemsUl = g_col.select("ul");
+//                                    if (!elemsUl.isEmpty()) {
+//                                        result += ":white_small_square: " + elemsUl.get(iter).select("li").text() + "\n\n";
+//                                        iter++;
+//                                    }
+//
+//                                }
+//                            }
+//                            if (!g_col.select("h3").isEmpty()) {
+//                                int iter = 0;
+//                                elemsH3 = g_col.select("h3");
+//                                for (Element elemH3 : elemsH3){
+//                                    result += ":grey_question: **" + elemH3.text() + "**\n";
+//                                    Elements elemsUl = g_col.select("ul");
+//                                    if (!elemsUl.isEmpty()) {
+//                                        result += ":white_small_square: " + elemsUl.get(iter).select("li").text() + "\n\n";
+//                                        iter++;
+//                                    }
+//
+//                                }
+//                            }
+//                        }
+
+//                        for (int i = 0; i < g_cols.size(); i++) {
+//                            if (!g_cols.get(i).select("h2").isEmpty()) {
+//                                title2 = g_cols.get(i).select("h2").text();
+//                            }
+//                            if (!g_cols.get(i).select("h3").isEmpty()) {
+//                                for (int j = 0; i < g_cols.size(); j++) {
+//                                    title2 = g_cols.get(i).select("h3").get(j).text();
+//                                }
+//                            }
+//                        }
+
                         //String title2 = div.select("h2").first().text();
-                        Elements ps = div.select("div.g-col > p");
-                        result += ":small_blue_diamond: **" + dateContentLastUpdate + " | " + title +"**\n";
-                        for (Element p : ps){
-                            result += ":white_small_square: " + p.select("p").text() + "\n";
-                        }//Elements lis = uls.select("li");
+//                        Elements g_col_ps = div.select("div.g-col p");
+//                        Elements g_col_h3s = div.select("div.g-col h3");
+//                        Elements g_col_uls = div.select("div.g-col > ul");
+                        //result += ":small_blue_diamond: **" + dateNews + " | " + title +"**\n\n";
+
+//                        for (Element g_col_p : g_col_ps){
+//                            int i=0;
+//                            result += "**" + g_col_p.text() + "**\n";
+//                            for (Element g_col_h3 : g_col_h3s){
+//                                result += "***" + g_col_h3.text() + "***\n";
+//                                result += ":white_small_square: " + g_col_uls.get(i).text() + "\n";
+//                                i++;
+//                            }
+//                        }
+
+                        //Elements lis = uls.select("li");
                         break;
                 }
 
@@ -151,16 +216,19 @@ public class GetAndSendContent {
         return  result;
 
     }
-
     static boolean sendContent(String[] args, MessageReceivedEvent event, String contentType){
         String msg = String.join(",", args);
         String[] sendReaply = null;
         int howMuchNewsSendOrNumberForGetFullNews = 1,
-            newsNumberForGetFullNews;
-        int indexPosition = 1; // нужна чтобы в подсказке выводить номер для полной новости
+                indexPosition = 1; // нужна чтобы в подсказке выводить номер для полной новости
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setColor(Color.yellow);
+        String updateContentErrorMsg = null;
+        switch (contentType) {
+            case "gameChangelog": updateContentErrorMsg = "Ошибка проверки обновлений игры!";
+            case "gameNews": updateContentErrorMsg = "Ошибка проверки обновлений новостей игры!";
+        }
         if (args.length == 0) {
 
             try {
@@ -178,7 +246,10 @@ public class GetAndSendContent {
 
                 }
                 } catch (Exception e) {
-                event.getChannel().sendMessage("Ошибка получения списка обновлений.").queue();
+                event.getChannel().sendMessage(updateContentErrorMsg).queue();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                System.out.println(simpleDateFormat.format(new Date()) + " | " + updateContentErrorMsg + "\n\n");
+                e.printStackTrace();
                 return false;
             }
 
@@ -238,139 +309,78 @@ public class GetAndSendContent {
                 event.getChannel().sendMessage(":warning: Укажите номер новости или их количество от одного до десяти.").queue();
                 return false;
             }
-            if (getFullNews) {
-                try {
-                    switch (contentType) {
-                        case "gameChangelog":
-                            sendReaply = CommonClass.splitStringEvery(
-                                    GetAndSendContent.getFullContent(
-                                            howMuchNewsSendOrNumberForGetFullNews, "gameChangelog"), 2000);
-                            break;
-                        case "gameNews":
-                            sendReaply = CommonClass.splitStringEvery(
-                                    GetAndSendContent.getFullContent(
-                                            howMuchNewsSendOrNumberForGetFullNews, "gameNews"), 2000);
-
-                    }
-                } catch (Exception e) {
-                    event.getChannel().sendMessage("Ошибка получения списка обновлений.").queue();
-                    return false;
-                }
-
-            } else { 
-                try {
-                    switch (contentType) {
-                        case "gameChangelog":
-                            sendReaply = CommonClass.splitStringEvery(GetAndSendContent.getContent(howMuchNewsSendOrNumberForGetFullNews, "gameChangelog"), 2000);
-                            break;
-                        case "gameNews":
-                            sendReaply = CommonClass.splitStringEvery(GetAndSendContent.getContent(howMuchNewsSendOrNumberForGetFullNews, "gameNews"), 2000);
-                            break;
-                    }
-                } catch (Exception e) {
-                    event.getChannel().sendMessage("Ошибка получения списка обновлений.").queue();
-                    return false;
-                }
-            }
-            if (sendAsChannelMsg) {
-                //int indexPosition = 1;
-                for (String sendReap : sendReaply){
+            if (getFullNews || sendAsChannelMsg || sendAsChannelMonitoringMsg) {
+                if (getFullNews){
                     try {
-                        event.getChannel().sendMessage(
-                                //eb.setDescription(sendReaply[i])
-                                eb.setDescription(sendReap).build()).queue();
-                        indexPosition++;
+                        switch (contentType) {
+                            case "gameChangelog":
+                                sendReaply = CommonClass.splitStringEvery(GetAndSendContent.getFullContent(howMuchNewsSendOrNumberForGetFullNews, "gameChangelog"), 2000);
+                                break;
+                            case "gameNews":
+                                sendReaply = CommonClass.splitStringEvery(GetAndSendContent.getFullContent(howMuchNewsSendOrNumberForGetFullNews, "gameNews"), 2000);
 
+                        }
                     } catch (Exception e) {
+                        event.getChannel().sendMessage(updateContentErrorMsg).queue();
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                        System.out.println(simpleDateFormat.format(new Date()) + " | " + updateContentErrorMsg + "\n\n");
                         e.printStackTrace();
+                        return false;
                     }
                 }
-            }
-//            else if (sendAsChannelDescription) {
-//                String reaply = GetAndSendContent.getContent(howMuchNewsSend);
-//                queryLib.doCommand("channeledit cid=" + botHomeChannel + " channel_description=" +
-//                        queryLib.encodeTS3String(reaply.replaceAll("--", "")));
-//
-//            }
-            else if (sendAsChannelMonitoringMsg){
-                if(!Monitoring.updateGameContentMonitoringChannel(event.getJDA(), "gameChangelog") ){
-                    event.getChannel().sendMessage(":warning:Обновлений игры нет.").queue();
-                }
-                else {
-                    event.getChannel().sendMessage(":new:Обновления игры доступны. Канал обновлён.").queue();
-                }
-
-
-            }
-            else {
-                try {
-                    switch (contentType) {
-                        case "gameChangelog":
-                            sendReaply = CommonClass.splitStringEvery(GetAndSendContent.getContent(howMuchNewsSendOrNumberForGetFullNews, "gameChangelog"), 2000);
-                            break;
-                        case "gameNews":
-                            sendReaply = CommonClass.splitStringEvery(GetAndSendContent.getContent(howMuchNewsSendOrNumberForGetFullNews, "gameNews"), 2000);
-                            break;
+                else{
+                    try {
+                        switch (contentType) {
+                            case "gameChangelog":
+                                sendReaply = CommonClass.splitStringEvery(GetAndSendContent.getContent(howMuchNewsSendOrNumberForGetFullNews, "gameChangelog"), 2000);
+                                break;
+                            case "gameNews":
+                                sendReaply = CommonClass.splitStringEvery(GetAndSendContent.getContent(howMuchNewsSendOrNumberForGetFullNews, "gameNews"), 2000);
+                                break;
+                        }
+                    } catch (Exception e) {
+                        event.getChannel().sendMessage(updateContentErrorMsg).queue();
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                        System.out.println(simpleDateFormat.format(new Date()) + " | " + updateContentErrorMsg + "\n\n");
+                        e.printStackTrace();
+                        return false;
                     }
-                } catch (Exception e) {
-                    event.getChannel().sendMessage("Ошибка получения списка обновлений.").queue();
-                    return false;
                 }
+                if (sendAsChannelMsg) {
+                    //int indexPosition = 1;
+                    for (String sendReap : sendReaply) {
+                        try {
+                            if (sendReap.contains("youtu.be")) { // чтобы видео инерпретировалось дискордом, посылаем без форматирования).
+                                event.getChannel().sendMessage(sendReap).queue();
+                                }
+                            else {
+                                event.getChannel().sendMessage(
+                                        eb.setDescription(sendReap).build()).queue();
+                            }
+                            indexPosition++;
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (sendAsChannelMonitoringMsg) {
+                    if (!Monitoring.updateGameContentMonitoringChannel(event.getJDA(), "gameChangelog")) {
+                        event.getChannel().sendMessage(":warning:Обновлений игры нет.").queue();
+                    } else {
+                        event.getChannel().sendMessage(":new:Обновления игры доступны. Канал обновлён.").queue();
+                    }
+
+
+                } else {
                     for (String sendReap : sendReaply) {
                         PrivateChannel pc = event.getAuthor().openPrivateChannel().complete();
                         pc.sendMessage(
                                 eb.setDescription(sendReap).build()).queue();
                         indexPosition++;
                     }
+                }
             }
         }
         return true;
-//            }
     }
-
-//    @Override
-//    public boolean called(String[] args, MessageReceivedEvent event) {
-//        return false;
-//    }
-//
-//    @Override
-//    public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
-//        sendContent(args, event);
-//    }
-//
-//    @Override
-//    public void executed(boolean success, MessageReceivedEvent event) {
-//
-//    }
-//
-//    @Override
-//    public String help() {
-//        String helpText = "**Получения списка обновлений игры War Thunder c официального сайта" +
-//                "\nИспользование:**" +
-//                "\n.chlog [c] [f] [numder]" +
-//                "\n**c** - послать ответ в текущий канал" +
-//                "\n**C** - послать ответ в канал мониторинга обновлений" +
-//                "\n**f** - показать подробности обновления" +
-//                "\n**numder** - количество новостей для получения или порядковый номер новости при запросе подробностей (число от одного до десяти)." +
-//                "\n\n**Примеры:**\n" +
-//                "\n**'.chlog 5'** пришлёт пять крайних обновлений. \n" +
-//                "**'.chlog c'** пришлёт только одно самое крайнее обновление в текущий канал.\n" +
-//                "\n**'.chlog c f 3 или .chlog cf 3'** пришлёт подробности третьего обновления.";
-//        return helpText;
-//    }
-//
-//    @Override
-//    public String description() {
-//        return "Получения списка обновлений игры War Thunder c официального сайта";
-//    }
-//
-//    @Override
-//    public String commandType() {
-//        return STATICS.CMDTYPE.thunderTools;
-//    }
-//
-//    @Override
-//    public int permission() {
-//        return 1;
-//    }
 }
