@@ -36,8 +36,7 @@ public class GameChangelog implements Command {
                 "\n**'.gameChangelog 5'** пришлёт пять крайних обновлений. \n" +
                 "**'.gameChangelog c'** пришлёт только одно самое крайнее обновление в текущий канал.\n" +
                 "\n**'.gameChangelog c f 3 или .chlog cf 3'** пришлёт подробности третьего обновления." +
-                "\n\n**Алиасы** (сокращённая форма команды):\n" +
-                "\n**'.chlog'**";
+                "\n\n**Алиасы** (сокращённая форма команды): " + STATICS.PREFIX + "`chlog`";
         return helpText;
     }
 

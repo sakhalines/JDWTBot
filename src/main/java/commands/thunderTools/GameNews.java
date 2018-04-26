@@ -36,8 +36,7 @@ public class GameNews implements Command {
                 "\n**'.gameNews 5'** пришлёт пять крайних новостей. \n" +
                 "**'.gameNews c'** пришлёт только одну самую крайнюю новость в текущий канал.\n" +
                 "\n**'.gameNews c f 3 или .gameNews cf 3'** пришлёт подробности третьей новости." +
-                "\n\n**Алиасы** (сокращённая форма команды):\n" +
-                "\n**'.gnews'**";
+                "\n\n**Алиасы** (сокращённая форма команды): " + STATICS.PREFIX + "`gnews` + ";
         return helpText;
     }
 
