@@ -175,22 +175,22 @@ public class GetAndSendContent {
             String fullNewsCommand = "";
             for (Element fullNew : fullNews){
                 indexPosition++;
+                boolean newsIsPinned = fullNew.parent().hasClass("news-item--pinned");
                 switch (contentType) {
                     case "gameChangelog":
                         //dateContentLastUpdate = fullNew.select("span.date").first().text();
-                        if (dateContentLastUpdate == null) {
+                        if (dateContentLastUpdate == null && !newsIsPinned) {
                             dateContentLastUpdate = fullNew.select("div.news-item__additional-date").first().text();
-                            if (dateContentLastUpdate.contains("16 марта 2018")) // дата выхода мажора "Буря", которая торчит постоянно сверху страницы
-                                dateContentLastUpdate  = null;
+                            //if (newsIsPinned)
+                                //if (dateContentLastUpdate.contains("29 октября 2019")) // дата выхода крайнего мажора, которая торчит постоянно сверху страницы (pinned)
+                            //    dateContentLastUpdate = null;
                         }
                         dateNews = fullNew.select("div.news-item__additional-date").first().text();
                         fullNewsCommand = ".chlog";
                         break;
                     case "gameNews":
-                        if (dateContentLastUpdate == null){
+                        if (dateContentLastUpdate == null && !newsIsPinned){
                             dateContentLastUpdate = fullNew.select("p.news-item__additional-date").first().text();
-                            if (dateContentLastUpdate.contains("13 апреля 2018"))// дата акции "Хроника Второй мировой", которая торчит постоянно сверху страницы
-                                dateContentLastUpdate  = null;
                         }
                         dateNews = fullNew.select("p.news-item__additional-date").first().text();
                         fullNewsCommand = ".gnews";

@@ -64,7 +64,7 @@ public class Monitoring{
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-        if (!gameChannelMonitoring.getName().contains(date) || !gameChannelMonitoring.getName().contains(date)) {
+        if (!gameChannelMonitoring.getName().contains(date)) {
             // очистка канала
             MessageHistory history = new MessageHistory(jda.getTextChannelById(gameContentChannel.getId()));
             List<Message> msgs;
