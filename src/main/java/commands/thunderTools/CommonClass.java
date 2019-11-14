@@ -47,7 +47,7 @@ public class CommonClass {
     }
 
     static void sendPostRequest(String playerNick) throws IOException {
-        Document doc = Jsoup.connect("http://thunderskill.com/ru/stat/" + playerNick)
+        Document doc = Jsoup.connect("https://thunderskill.com/ru/stat/" + playerNick)
                 .data("email", "myemailid")
                 .userAgent("Mozilla")
                 .post();
