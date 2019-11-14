@@ -22,7 +22,7 @@ public class StatRequest {
     }
 
     static String[] getStatForPlayerHtml(String playerName) {
-        String[] lastUpdateAndComparison = new String[2];
+        //String[] lastUpdateAndComparison = new String[2];
         String preferMode, // предпочитаемый режим (аркада/реал./симул.)
                 lastUpdate,
                 comparsion,
@@ -128,17 +128,21 @@ public class StatRequest {
         String[] reaply = new String[4];
 
         try {
-            Document doc = Jsoup.connect("http://thunderskill.com/ru/stat/" + playerName).get();
+            Document doc = Jsoup.connect("https://thunderskill.com/ru/stat/" + playerName).get();
             preferMode = doc.select("p[class^=prefer ]").text();
-            lastUpdateAndComparison = doc.select("p.stat_dt").text()
-            .split(",");
-            lastUpdate = lastUpdateAndComparison[0];
-            comparsion = lastUpdateAndComparison[1].replace(" сравнение", "Сравнение");
+            Elements lastUpdateAndComparison = doc.select("p.stat_dt").select("strong");//.text().split(",");
+            lastUpdate = lastUpdateAndComparison.eq(0).text();
+//            comparsion = lastUpdateAndComparison[1].replace(" сравнение", "Сравнение: ");
+            comparsion = lastUpdateAndComparison.eq(1).text();
 
 
-            Elements elementsA = doc.select("div.four.columns.text-center").eq(0);
-            Elements elementsR = doc.select("div.four.columns.text-center").eq(1);
-            Elements elementsS = doc.select("div.four.columns.text-center").eq(2);
+//            Elements elementsA = doc.select("div.four.columns.text-center").eq(0);
+//            Elements elementsR = doc.select("div.four.columns.text-center").eq(1);
+//            Elements elementsS = doc.select("div.four.columns.text-center").eq(2);
+
+            Elements elementsA = doc.select("div[class*=mycol]").eq(0);
+            Elements elementsR = doc.select("div[class*=mycol ]").eq(1);
+            Elements elementsS = doc.select("div[class*=mycol ]").eq(2);
 
             rankA = elementsA.select("div[class^=resume ]").text();
             rankR = elementsR.select("div[class^=resume ]").text();
@@ -249,10 +253,12 @@ public class StatRequest {
 
             testVar = testVar.substring(0,500);
 
-        resultA ="\n\n**:small_blue_diamond:" + playerName + ":small_blue_diamond: " + preferMode + "\n" + lastUpdate + "\n" + comparsion + "**" +
-                "--\n:regional_indicator_a:**Аркадные бои" +
+        resultA ="\n\n**:small_blue_diamond:" + playerName + "**:small_blue_diamond: " + preferMode + "\n" +
+                "Последнее обновление: **" + lastUpdate + "**\n" +
+                "Сравнение с: **" + comparsion + "**" +
+                "--\n\n:regional_indicator_a:**Аркадные бои**" +
                 "\n" + preferAirOrGroundBattlesA +
-                "\n**Ранг: **" + rankA +
+                "\nРанг: **" + rankA +
                 "\n**КПД: **" + kpdA +
                 "\n**Воздушных боёв: **" + preferAirBattlesA +
                 "\n**Наземных боёв: **" + preferGroundBattlesA +
@@ -268,9 +274,9 @@ public class StatRequest {
                 "\n**Продолжительность жизни: **" + lifetimeA + "    " + CommonClass.setColorForDiff(lifetimeDiffA) + "**";
 
         resultR ="\n\n**:small_blue_diamond:" + playerName + ":small_blue_diamond:" + preferMode + "\n" + lastUpdate + "\n" + comparsion + "**" +
-                "--\n:regional_indicator_r:**Реалистичные бои" +
+                "--\n\n:regional_indicator_r:**Реалистичные бои**" +
                 "\n" + preferAirOrGroundBattlesR +
-                "\n**Ранг: **" + rankR +
+                "\nРанг: **" + rankR +
                 "\n**КПД: **" + kpdR + "%" +
                 "\n**Воздушных боёв: **" + preferAirBattlesR +
                 "\n**Наземных боёв: **" + preferGroundBattlesR +
@@ -285,9 +291,9 @@ public class StatRequest {
                 "\n**Продолжительность жизни: **" + lifetimeR + "    " + CommonClass.setColorForDiff(lifetimeDiffR) + "**";
 
         resultS ="\n\n**:small_blue_diamond:" + playerName + ":small_blue_diamond:" + preferMode + "\n" + lastUpdate + "\n" + comparsion + "**" +
-                "--\n:regional_indicator_s:**Симуляторные бои" +
+                "--\n\n:regional_indicator_s:**Симуляторные бои**" +
                 "\n" + preferAirOrGroundBattlesS +
-                "\n**Ранг: **" + rankS +
+                "\nРанг: **" + rankS +
                 "\n**КПД: **" + kpdS +
                 "\n**Воздушных боёв: **" + preferAirBattlesS +
                 "\n**Наземных боёв: **" + preferGroundBattlesS +

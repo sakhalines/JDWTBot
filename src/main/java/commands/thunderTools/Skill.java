@@ -91,7 +91,7 @@ public class Skill implements Command {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setColor(Color.yellow);
         eb.setTitle("Запрос статистики от **" + event.getAuthor().getName()+ "**");
-        //eb.setImage("http://thunderskill.com/userbars/s/a/" + playerName + "/ru-1-combined-r.png");
+        //eb.setImage("https://thunderskill.com/userbars/s/a/" + playerName + "/ru-1-combined-r.png");
         eb.setThumbnail("https://vignette.wikia.nocookie.net/warthunder/images/a/a3/WarThunder_icon.png/revision/latest?cb=20121222231347");
 
         if (arcade || real || simul) {  // если указан режим игры
