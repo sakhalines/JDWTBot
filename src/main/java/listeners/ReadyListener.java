@@ -146,7 +146,7 @@ public class ReadyListener extends ListenerAdapter {
                         e.printStackTrace();
                     }
                 }
-            }, 10000, intervalParse * 6000);
+            }, 10000, intervalParse * 60000);
         }
 
         if (!STATICS.gameNewsUpdateInterval.equalsIgnoreCase("OFF")){
@@ -162,7 +162,7 @@ public class ReadyListener extends ListenerAdapter {
                         e.printStackTrace();
                     }
                 }
-            }, 20000, intervalParse * 6000);
+            }, 20000, intervalParse * 60000);
         }
 
         commands.chat.Counter.loadAll(event.getJDA());
